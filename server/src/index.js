@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/dbConfig');
-const routes = require('./routes');  // Thư mục routes chứa các route controllers
-const { errorHandler } = require('./middleware/error');
+// const routes = require('./routes');  // Thư mục routes chứa các route controllers
+// const { errorHandler } = require('./middleware/error');
 
 // Load env vars
-dotenv.config({path: '/server/src/.env'});
+dotenv.config({path: './.env'});
+console.log(process.env.MONGODB_URI);
 
 // Create Express app
 const app = express();
