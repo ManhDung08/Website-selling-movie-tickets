@@ -6,5 +6,3 @@ exports.errorHandler = (err, req, res, next) => {
         error: process.env.NODE_ENV === 'development' ? err : {}
     });
 };
-
-console.log(process.env.NODE_ENV)
