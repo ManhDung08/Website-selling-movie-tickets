@@ -2,13 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/dbConfig');
+// const routes = require('./routes');  // Thư mục routes chứa các route controllers
 const { errorHandler } = require('./middleware/error');
 const path = require('path');
 
 // Load env vars
 const envPath = path.resolve(__dirname, '.env');
 dotenv.config({ path: envPath });
-console.log(process.env.PORT)
 
 // Create Express app
 const app = express();
@@ -17,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api', routes);
 
 // Error handler
 app.use(errorHandler);
