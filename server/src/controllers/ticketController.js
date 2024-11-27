@@ -1,65 +1,101 @@
-import mongoose from "mongoose";
-import Ticket from "../models/Ticket.js";
-import Movie from "../models/movie.js";
-import User from "../models/User.js";
+const mongoose = require('mongoose');
+const Ticket = require('../models/Ticket');
+const Showtime = require('../models/Showtime');
+const User = require('../models/User');
 
-// Tạo vé mới
+const RESERVED_SEAT_TIMEOUT = 1000 * 60 * 10; // 10 minutes
+
 export const newTicket = async (req, res, next) => {
-  const { movie, date, seatNumber, user } = req.body;
-
-  let existingMovie, existingUser;
   try {
-    // Kiểm tra sự tồn tại của phim và người dùng
-    existingMovie = await Movie.findById(movie);
-    existingUser = await User.findById(user);
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Database lookup failed", error: err });
-  }
+    const { userId, showtimeId, seats, paymentMethod } = req.body;
 
-  if (!existingMovie) {
-    return res.status(404).json({ message: "Movie Not Found With Given ID" });
-  }
-  if (!existingUser) {
-    return res.status(404).json({ message: "User Not Found With Given ID" });
-  }
+    // kiem tra dau vao
+    if (!userId || !showtimeId || !seats || seats.length === 0 || !paymentMethod) {
+      return res.status(400).json({ message: 'All required fields must be provided' });
+    }
 
-  let ticket;
-  try {
-    // Tạo đối tượng vé mới
-    ticket = new Ticket({
-      movie,
-      date: new Date(`${date}`),
-      seatNumber,
-      user,
+    // kiem tra lich chieu
+    const showtime = await Showtime.findById(showtimeId).populate('movieId roomId theaterId');
+    if (!showtime) {
+      return res.status(404).json({ message: 'Showtime not found' });
+    }
+
+    // Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // kiem tra ghe 
+    const reservedSeats = showtime.reservedSeats || [];
+    for (const seat of seats) {
+      const isReserved = reservedSeats.some(
+        (reservedSeat) => reservedSeat.row === seat.row && reservedSeat.number === seat.number
+      );
+      if (isReserved) {
+        return res.status(400).json({ message: 'Some selected seats are already reserved' });
+      }
+    }
+
+    // tam giu cho
+    showtime.reservedSeats = [...reservedSeats, ...seats];
+    await showtime.save();
+
+    // giai phong ghe sau 10p
+    setTimeout(async () => {
+      const currentTicket = await Ticket.findOne({ showtimeId, userId, paymentStatus: 'pending' });
+      if (!currentTicket) {
+        // Release seats if ticket was not created or payment is not completed
+        showtime.reservedSeats = showtime.reservedSeats.filter(
+          (reservedSeat) => !seats.some(
+            (seat) => seat.row === reservedSeat.row && seat.number === reservedSeat.number
+          )
+        );
+        await showtime.save();
+      }
+    }, RESERVED_SEAT_TIMEOUT);
+
+    // tinh tien
+    let totalAmount = 0;
+    for (const seat of seats) {
+      if (seat.type === 'standard') totalAmount += showtime.price.standard;
+      if (seat.type === 'vip') totalAmount += showtime.price.vip;
+      if (seat.type === 'couple') totalAmount += showtime.price.couple;
+    }
+
+    // tao ma qr
+    const bookingCode = `TICKET-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+    const qrCode = `QR-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+
+    // tao ve
+    const newTicket = new Ticket({
+      userId,
+      showtimeId,
+      seats,
+      totalAmount,
+      paymentStatus: 'pending',
+      paymentMethod,
+      bookingCode,
+      qrCode,
     });
 
-    // Sử dụng giao dịch để bảo đảm tính toàn vẹn của dữ liệu
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    
+    await newTicket.save();
 
-    // Thêm vé vào danh sách vé của người dùng và phim
-    existingUser.ticket.push(ticket);
-    existingMovie.ticket.push(ticket);
+    
+    user.tickets = user.tickets || [];
+    user.tickets.push(newTicket._id);
+    await user.save();
 
-    // Lưu tất cả các thay đổi trong session
-    await existingUser.save({ session });
-    await existingMovie.save({ session });
-    await ticket.save({ session });
-
-    await session.commitTransaction();
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Ticket creation failed", error: err });
+    
+    return res.status(201).json({
+      message: 'Ticket successfully created',
+      ticket: newTicket,
+    });
+  } catch (error) {
+    console.error('Error creating ticket:', error);
+    return res.status(500).json({ message: 'Server error, please try again later' });
   }
-
-  if (!ticket) {
-    return res.status(500).json({ message: "Unable to create a ticket" });
-  }
-
-  return res.status(201).json({ ticket: ticket });
 };
 
 // Lấy vé theo ID
