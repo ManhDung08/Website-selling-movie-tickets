@@ -56,6 +56,7 @@ export const signup = async (req, res, next) => {
   }
   return res.status(201).json({ user });
 };
+
 export const updateUser = async (req, res, next) => {
   const id = req.params.id;
   const { name, email, password } = req.body;

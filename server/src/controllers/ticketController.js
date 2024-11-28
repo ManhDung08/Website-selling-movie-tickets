@@ -37,7 +37,7 @@ export const newTicket = async (req, res, next) => {
       }
     }
 
-    // tam giu cho
+    
     showtime.reservedSeats = [...reservedSeats, ...seats];
     await showtime.save();
 
