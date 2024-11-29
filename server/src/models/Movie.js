@@ -13,8 +13,6 @@ const movieSchema = new mongoose.Schema({
   cast: [String],
   poster: String,
   status: { type: String, enum: ['coming-soon', 'now-showing', 'ended'], default: 'coming-soon' },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Movie', movieSchema);
