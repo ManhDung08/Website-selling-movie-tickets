@@ -1,89 +1,35 @@
-import jwt from "jsonwebtoken";
-import Movie from "../models/movie";
+const adminMiddleware = require("../middleware/auth")
+const jwt = require("jsonwebtoken");
+const movieService = require("../services/MovieService");
 
-export const addMovie = async (req, res, next) => {
-  const extractedToken = req.header.authorization.split(" ")[1];
-  if (!extractedToken || !extractedToken.trim() === "") {
+export const CreateMovie = async (req, res) => {
+  const extractedToken = adminMiddleware(req,res,next);
+  if (!extractedToken) {
     return res.status(404).json({ message: "Token Not Found" });
   }
-  let adminId;
 
+  let adminId;
   jwt.verify(extractedToken, process.env.SECRET_KEY, (err, decrypted) => {
     if (err) {
       return res.status(400).json({ message: `${err.message}` });
-    } else {
-      adminId = decrypted.id;
-      return;
     }
+    adminId = decrypted.id;
   });
-  //tạo phim
-  const {
-    title,
-    description,
-    duration,
-    genre,
-    releaseDate,
-    language,
-    director,
-    cast,
-    poster,
-    status,
-  } = req.body;
-  if (
-    !title ||
-    title.trim() === "" ||
-    !description ||
-    description.trim() === "" ||
-    !duration ||
-    duration.trim() === "" ||
-    !genre ||
-    genre.trim() === "" ||
-    !releaseDate ||
-    releaseDate.trim() === "" ||
-    !language ||
-    language.trim() ||
-    !director ||
-    director.trim() === "" ||
-    !cast ||
-    cast.trim() === "" ||
-    !poster ||
-    poster.trim() ||
-    !status ||
-    status.trim() === ""
-  ) {
-    return res.status(422).json({ message: "Invalid Input" });
+
+  const result = await movieService.createMovie(req.body);
+
+  if (result.error) {
+    return res.status(result.statusCode).json({ message: result.message });
   }
 
-  let movie;
-  try {
-    movie = new Movie({
-      title,
-      description,
-      duration,
-      genre,
-      releaseDate,
-      language,
-      director,
-      cast,
-      poster,
-      status,
-    });
-    movie = await movie.save();
-  } catch (err) {
-    return console.log(err);
-  }
-
-  if (!movie) {
-    return res.status(500).json({ message: "Request Failed" });
-  }
-
-  return res.status(201).json({ movie });
+  return res.status(201).json({ movie: result.movie });
 };
+
 
 export const getAllMovie = async (req, res, next) => {
   let movies;
   try {
-    movies = await Movie.find();
+    movies = await movieService.getAllMovie()
   } catch (err) {
     console.log(err);
   }
@@ -98,7 +44,7 @@ export const getMovieById = async (req, res, next) => {
   const id = req.params.id;
   let movie;
   try {
-    movie = await Movie.findById(id);
+    movie = await movieService.getMovieById.findById(id);
   } catch (err) {
     console.log(err);
   }
@@ -110,12 +56,13 @@ export const getMovieById = async (req, res, next) => {
   return res.status(200).json({ movie });
 };
 
+
 export const deleteMovieById = async (req, res, next) => {
   const id = req.params.id;
 
   let movie;
   try {
-    movie = await Movie.findByIdAndDelete(id);
+    movie = await movieService.deleteMovieById(id, req.body)
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
@@ -127,3 +74,22 @@ export const deleteMovieById = async (req, res, next) => {
 
   return res.status(200).json({ message: "Movie deleted successfully", movie });
 };
+
+export const updateMovie = async (req, res, next) => {
+  const id = req.params.id;
+  
+  let movie;
+  try {
+    movie = await movieService.updateMovie(id, req.body)
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+
+  if (!movie) {
+    return res.status(404).json({ message: "Movie not found" });
+  }
+
+  return res.status(200).json({ message: "Movie deleted successfully", movie });
+};
+
