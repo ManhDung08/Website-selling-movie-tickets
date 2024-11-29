@@ -21,7 +21,5 @@ const showtimeSchema = new mongoose.Schema({
       required: true,
       default: "available",
     },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-  });
+  },{ timestamps: true });
 module.exports = mongoose.model("Showtime", showtimeSchema);

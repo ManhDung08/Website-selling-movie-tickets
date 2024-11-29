@@ -15,8 +15,6 @@ const roomSchema = new mongoose.Schema({
       status: { type: String, enum: ["active", "maintenance"], required: true },
     },
   ],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model("Room", roomSchema);

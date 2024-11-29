@@ -18,8 +18,6 @@ const ticketSchema = new mongoose.Schema({
   paymentMethod: { type: String, enum: ["momo", "VNPay", "zalopay"], required: true },
   bookingCode: { type: String, required: true },    //Mã đặt vé giúp xác nhận vé
   qrCode: { type: String, required: true },      //Mã QR quét tại quầy
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model("Ticket", ticketSchema);
