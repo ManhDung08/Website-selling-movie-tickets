@@ -61,7 +61,7 @@ export default function CardComp(filmProfile) {
                                     style={{color: "transparent"}}/><span className="text-sm underline">Xem Trailer</span></a>
                              <div className="relative px-3 sm:py-2 py-5 bg-yellow-500  col-span-2 sm:col-span-1">
                                 <div
-                                    className="absolute inset-y-0 left-0 right-[100%] bg-purple-600 duration-700 group-hover:right-0 transition-all hover:ease-in-out text-white">
+                                    className="absolute inset-y-0 left-0 right-[100%] bg-red-500 duration-700 group-hover:right-0 transition-all hover:ease-in-out text-white">
 
                                 </div>
                                 <div className="absolute inset-0 text-black z-10 text-center flex duration-700 group-hover:text-white"><a className="m-auto uppercase text-center col-span-2 sm:col-span-1 bg "
