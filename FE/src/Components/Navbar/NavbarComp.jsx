@@ -20,7 +20,7 @@ export default function NavbarComp() {
         <div className="container mx-auto flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <span className="ml-3 font-bold text-xl">CINESTAR</span>
+            <span className="ml-3 font-bold text-xl">CINEMASTAR</span>
           </div>
 
           {/* Navigation Links */}
@@ -41,7 +41,7 @@ export default function NavbarComp() {
               <i className="fas fa-ticket-alt mr-2"></i>
               Đặt vé ngay
             </button>
-            <button className="bg-purple-700 hover:bg-purple-800 px-4 py-2 rounded-lg flex items-center">
+            <button className="bg-red-700 hover:bg-red-800 px-4 py-2 rounded-lg flex items-center">
               <i className="fas fa-popcorn mr-2"></i>
               Đặt bắp nước
             </button>
