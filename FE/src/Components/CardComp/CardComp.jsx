@@ -5,7 +5,7 @@ export default function CardComp(filmProfile) {
 
             <div className="flex flex-col group ">
                 <a href="">
-                    <div className="w-full relative  overflow-hidden border-2 border-white">
+                    <div className="w-full relative  overflow-hidden border-2 border-white rounded-lg">
                         <img className="object-cover aspect-[2/3] w-full"
                             src={filmProfile.img}
                             alt=""/>
