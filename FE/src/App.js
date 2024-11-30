@@ -12,7 +12,7 @@ import Upcoming from './Page/Upcoming';
 
 export default function App() {
   return (
-    <div className='bg-purple-400'>
+    <div className='bg-white-400'>
      
        
      
