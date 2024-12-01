@@ -20,9 +20,9 @@ export const DISPLAY_MOBILE_HOMEPAGE = "(max-width:736px)";
 export const IMG_LOADING = "/img/logoTixLoading.png";
 
 // Date range constants
-export const DATE_BEGIN_DANGCHIEU = "2020-01-01"; // format: yyyy-mm-dd
-export const DATE_END_DANGCHIEU = "2020-12-01";
-export const DATE_BEGIN_SAPCHIEU = "2020-12-02";
+export const DATE_BEGIN_DANGCHIEU = "2024-01-01"; // format: yyyy-mm-dd
+export const DATE_END_DANGCHIEU = "2024-12-01";
+export const DATE_BEGIN_SAPCHIEU = "2024-12-02";
 export const DATE_END_SAPCHIEU = new Date().toISOString()?.slice(0, 10);
 
 // Price array
