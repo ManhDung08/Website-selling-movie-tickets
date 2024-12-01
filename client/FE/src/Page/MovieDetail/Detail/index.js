@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import Rating from "@material-ui/lab/Rating";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { useLocation } from "react-router-dom";
 import "./style.css";
 import useStyles from "./style";
-import formatDate from "../../../utilities/formatDate";
-import ShowTimne from "../ShowTime";
+import formatDate from "../../../untilities/formatDate";
+import ShowTimne from "../Tap/ShowTime";
 import { useDispatch } from "react-redux";
 
  const OPEN_MODAL = 'OPEN_MODAL';
@@ -16,7 +14,7 @@ export default function Desktop({ movieDetailShowtimes: data, isMobile }) {
   const [onClickBtnMuave, setOnClickBtnMuave] = useState(0);
   const param = useParams();
   const [quantityComment, setQuantityComment] = useState(0);
-  const { thoiLuong, danhGia } = useApiThoiLuongDanhGia(param.maPhim);
+
   const classes = useStyles({ bannerImg: data?.hinhAnh });
   const [imagePage404, setImagePage404] = useState(false);
   let location = useLocation();

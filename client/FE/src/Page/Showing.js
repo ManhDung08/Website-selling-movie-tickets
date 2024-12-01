@@ -6,12 +6,14 @@ export default function Showing() {
     const filmProfiles = [
         {
             name: "Avatar: The Way of Water",
+            id: "001",
             isShowing: true, // Phim đang chiếu
             displayType: "3D", // Định dạng: 2D hoặc 3D
             img: "https://cinestar.com.vn/_next/image/?url=https%3A%2F%2Fapi-website.cinestar.com.vn%2Fmedia%2Fwysiwyg%2FPosters%2F11-2024%2Flinh-mieu-official.png&w=256&q=40" // URL ảnh poster phim
         },
         {
             name: "Spider-Man: No Way Home",
+            id: "002",
             isShowing: false, // Phim đã ngừng chiếu
             displayType: "2D", // Định dạng: 2D
             img: "https://cinestar.com.vn/_next/image/?url=https%3A%2F%2Fapi-website.cinestar.com.vn%2Fmedia%2Fwysiwyg%2FPosters%2F11-2024%2Flinh-mieu-official.png&w=256&q=40"

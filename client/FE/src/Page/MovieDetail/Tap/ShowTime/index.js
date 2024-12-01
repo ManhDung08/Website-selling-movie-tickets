@@ -1,12 +1,12 @@
 import React from 'react'
 
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 import useStyles from './style'
 import RightSection from './RightSection';
 
-export default function LichChieuDesktop({ data }) {
+export default function ShowTime({ data }) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState(0);

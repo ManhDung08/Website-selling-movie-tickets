@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { getMovieShowtimes } from '../../reducers/actions/MovieDetail';
 import { DISPLAY_MOBILE_HOMEPAGE } from '../../constants/config'
 import { RESET_MOVIEDETAIL_REDUCER } from '../../reducers/constants/MovieDetail';

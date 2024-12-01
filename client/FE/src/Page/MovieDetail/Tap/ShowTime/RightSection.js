@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 
 import useStyles from "./style";
-import formatDate from "../../../../utilities/formatDate";
-import ItemCumRap from "../../../../components/ItemCumRap";
+import formatDate from "../../../../untilities/formatDate";
+//import ItemCumRap from "../../../../components/ItemCumRap";
 import { selectDesktopData } from "../../../../reducers/selector/MovieDetail";
 
 export default function RightSection({ currentSelectedHeThongRapChieu }) {
@@ -45,7 +45,7 @@ export default function RightSection({ currentSelectedHeThongRapChieu }) {
             style={{ display: indexSelected === i ? "block" : "none" }}
             key={i}
           >
-            {arrayCumRapChieuFilterByDay.map((item) => (
+            {/* {arrayCumRapChieuFilterByDay.map((item) => (
               <ItemCumRap
                 key={item.tenCumRap}
                 tenCumRap={item.tenCumRap}
@@ -53,7 +53,7 @@ export default function RightSection({ currentSelectedHeThongRapChieu }) {
                 lichChieuPhim={item.lichChieuPhim}
                 defaultExpanded={true}
               />
-            ))}
+            ))} */}
           </div>
         )
       )}
