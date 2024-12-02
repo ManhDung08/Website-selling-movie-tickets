@@ -1,0 +1,273 @@
+[33mcommit 4f31526cbc640aa3446300f493bd67e08ed574e1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mbug-fix[m[33m, [m[1;31morigin/bug-fix[m[33m)[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Tue Dec 3 04:36:41 2024 +0700
+
+    Fix some errors and bugs
+
+[33mcommit f9416830c05985e500339014fda6c7e71ecfd5f2[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: 9efc3118 ed5fcb82
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 21:28:41 2024 +0700
+
+    Merge pull request #18 from ManhDung08/remove
+    
+    Remove unnesscessary files
+
+[33mcommit ed5fcb8239962c7d19cd840693002d55beaf0674[m[33m ([m[1;31morigin/remove[m[33m, [m[1;32mremove[m[33m)[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 21:27:25 2024 +0700
+
+    Remove unnesscessary files
+
+[33mcommit 9efc31186c0608841c2310b1e3dcbcc8752a831d[m
+Merge: e56e0e7d 2824cebb
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 21:09:34 2024 +0700
+
+    Merge pull request #17 from ManhDung08/remove
+    
+    Remove unnesscessary files
+
+[33mcommit 2824cebb353ae0805d03d414176059a251d9fe26[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 21:08:36 2024 +0700
+
+    Remove unnesscessary files
+
+[33mcommit e56e0e7d58e37a5b086541c63fe183a7902dfeee[m
+Merge: a8b490b8 c27f0a07
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 20:58:32 2024 +0700
+
+    Merge pull request #16 from ManhDung08/Bugfix
+    
+    Remove unnescessary files
+
+[33mcommit c27f0a076be795948ab8afdf7cf2ecb8ee60533c[m[33m ([m[1;31morigin/Bugfix[m[33m, [m[1;32mBugfix[m[33m)[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 20:57:22 2024 +0700
+
+    Remove unnescessary files
+
+[33mcommit a8b490b80b4dd29602601e9b71b81a90f0d9f82a[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 20:49:26 2024 +0700
+
+    Add files via upload
+
+[33mcommit 394659623b79dfe31c88bf6aea775a4903e6dff3[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sat Nov 30 20:48:42 2024 +0700
+
+    Add files via upload
+
+[33mcommit edfc2228bb345a710bfe01e60fefd367289ff2de[m
+Author: AnhDung31 <vadanhdungh@gmail.com>
+Date:   Sat Nov 30 14:01:33 2024 +0700
+
+    merge
+
+[33mcommit ac6a0d2cbbe8cecfe27f4796c46f716c3ce82a34[m
+Merge: 9f05adba 2d82d437
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:47:03 2024 +0700
+
+    Merge pull request #15 from ManhDung08/Bugfix
+    
+    Fix configuration
+
+[33mcommit 2d82d4373a8c9f484afb0dc87bdfbb3010119fa8[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:46:08 2024 +0700
+
+    Fix configuration
+
+[33mcommit 9f05adba03128a5d8a54982f0ea75f3b96498f50[m
+Merge: c06bcba0 c26634ec
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:22:34 2024 +0700
+
+    Merge pull request #14 from ManhDung08/feature/model-and-DB
+    
+    Replace timestamp for created-updated date
+
+[33mcommit c26634ec6f2a6a5ffbec0bd3c10e75185c782f4a[m[33m ([m[1;31morigin/feature/model-and-DB[m[33m, [m[1;32mfeature/model-and-DB[m[33m)[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:21:50 2024 +0700
+
+    Replace timestamp for created-updated date
+
+[33mcommit c06bcba0c1da6fe763fa507beaaa7cb60d9e321c[m
+Merge: 03d40efd 181e6494
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:15:53 2024 +0700
+
+    Merge pull request #13 from ManhDung08/feature/middleware
+    
+    Add validation files and configuration files
+
+[33mcommit 181e6494a83f3820ff8c597335a68c7cedd1d7dd[m[33m ([m[1;31morigin/feature/middleware[m[33m, [m[1;32mfeature/middleware[m[33m)[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 22:14:57 2024 +0700
+
+    Add validation files and configuration files
+
+[33mcommit 03d40efdc7719ad6fd28d6c93c4bdb73a6d5633e[m
+Merge: 833115f6 f22d6d49
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Fri Nov 29 11:11:49 2024 +0700
+
+    Merge pull request #12 from ManhDung08/dung_thieu
+    
+    Dung thieu
+
+[33mcommit f22d6d49b3bc844561dacc50eef6f8e7c485c52b[m
+Merge: f27d5cdc 833115f6
+Author: vandungthieu <vandungthieu20102003@gmail.com>
+Date:   Fri Nov 29 01:45:07 2024 +0700
+
+    chinh sua
+
+[33mcommit 833115f6ac73c053899a497591396ee640e20c1e[m
+Merge: c9ae91aa 05dba4ba
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Thu Nov 28 20:31:35 2024 +0700
+
+    Merge pull request #11 from ManhDung08/feature/model-and-DB
+    
+    Fix bug in user
+
+[33mcommit 05dba4ba538a837a5dd7e20e95550cfe2d70c758[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Thu Nov 28 20:30:29 2024 +0700
+
+    Fix bug in user
+
+[33mcommit f27d5cdc6c0f6c8be31834d88f5de6cb150d85cd[m
+Author: vandungthieu <vandungthieu20102003@gmail.com>
+Date:   Thu Nov 28 01:06:40 2024 +0700
+
+    chinh tao ve
+
+[33mcommit c9ae91aac9f8fa2050d0a07867f9993b2cc2e829[m
+Merge: 058f2b2a 7a5e31f8
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 16:14:43 2024 +0700
+
+    Merge pull request #10 from ManhDung08/feature/model-and-DB
+    
+    Fix ticket model
+
+[33mcommit 7a5e31f8f184811e509face14dcbd1240a2b6606[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 16:14:02 2024 +0700
+
+    Fix ticket model
+
+[33mcommit 058f2b2a3a3b437a2cdf36ab6af4afdcbb59c518[m
+Merge: 206a225d 30f81b72
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 15:26:00 2024 +0700
+
+    Merge pull request #9 from ManhDung08/feature/middleware
+    
+    Fix errorHandler
+
+[33mcommit 30f81b72aa0c1791c6d4c53872e39bfd7107932a[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 15:24:17 2024 +0700
+
+    Fix errorHandler
+
+[33mcommit 206a225da4302434aab232606bb21dc03120d803[m
+Merge: 9bf6757f aace4442
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 15:20:11 2024 +0700
+
+    Merge pull request #8 from ManhDung08/feature/middleware
+    
+    Add errorHandler, authMiddleware and adminMiddleware
+
+[33mcommit aace4442355c6a159bef88566dea272f7201e918[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 15:19:33 2024 +0700
+
+    Add errorHandler, authMiddleware and adminMiddleware
+
+[33mcommit 9bf6757f8c8dc7d4232445f39d61b658552e4d61[m
+Merge: 973ddb14 d9ea5e0b
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Wed Nov 27 13:38:33 2024 +0700
+
+    Merge pull request #7 from ManhDung08/dung_thieu
+    
+    repair controller
+
+[33mcommit d9ea5e0b66a99e90db10f2c8887f6bb8515cee46[m
+Author: vandungthieu <vandungthieu20102003@gmail.com>
+Date:   Tue Nov 26 23:48:21 2024 +0700
+
+    repair controller
+
+[33mcommit 973ddb147690e0b1ce25b64c1a888b2ca4b9086a[m
+Merge: 3d21624b a8617b9a
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Tue Nov 26 16:51:00 2024 +0700
+
+    Merge pull request #6 from ManhDung08/dung_thieu
+    
+    add controller
+
+[33mcommit a8617b9aa11d4d1871c6ce95a8b23ad3d51b55c1[m
+Author: vandungthieu <vandungthieu20102003@gmail.com>
+Date:   Tue Nov 26 16:43:24 2024 +0700
+
+    add controller
+
+[33mcommit 3d21624bf58677ae0d4e855f0390e02b9e30fa14[m
+Merge: 429ba19c f2f3e3ae
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 23:02:26 2024 +0700
+
+    Merge pull request #5 from ManhDung08/feature/model-and-DB
+    
+    Fix bug in DB connection
+
+[33mcommit f2f3e3ae8961d08679e927907342567a6405081a[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 23:01:36 2024 +0700
+
+    Fix bug in DB connection
+
+[33mcommit 429ba19c6913c1b84b3cefcb719dc762628a8dda[m
+Merge: 44f86caa f5e16b74
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 22:27:29 2024 +0700
+
+    Merge pull request #4 from ManhDung08/feature/model-and-DB
+    
+    Add .env and DB connection
+
+[33mcommit f5e16b74fd25fb1582cc0c4b9f7443acc5fec25e[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 22:25:54 2024 +0700
+
+    Add .env and DB connection
+
+[33mcommit 44f86caa10a6c557f5eb67cf9e0eb3dbff49abba[m
+Merge: 4714a5d5 b03b3fc8
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 22:03:54 2024 +0700
+
+    Merge pull request #3 from ManhDung08/feature/model-and-DB
+    
+    Add models
+
+[33mcommit b03b3fc86526af88ed95e443df9f098fd825c1a6[m
+Author: ManhDung08 <dung.tmepr@gmail.com>
+Date:   Sun Nov 24 22:03:04 2024 +0700
+
+    Add models
+
+[33mcommit 4714a5d5ecf771d17fdc4daa0e32b674654e678d[m
+Merge
