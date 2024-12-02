@@ -12,10 +12,16 @@ const checkUniqueField = async (field, value, theater = null) => {
 
     const existingTheater = await Theater.findOne(query);
     if (existingTheater) {
-        throw new Error(`${field === 'name' ? 'Tên rạp' : 'Email'} đã được sử dụng`);
+        const fieldName = {
+            name: 'Tên rạp',
+            'contact.email': 'Email',
+            'contact.phone': 'Số điện thoại'
+        };
+        throw new Error(`${fieldName[field]} đã được sử dụng`);
     }
     return true;
 };
+
 
 const baseUserValidation = [
     body('address')
@@ -26,9 +32,6 @@ const baseUserValidation = [
         .trim()
         .notEmpty().withMessage('Thành phố không được để trống'),
 
-    body('totalRooms')
-        .isInt({ min: 1 }).withMessage('Số lượng phòng phải là số nguyên và lớn hơn 0'),
-
     body('facilities')
         .isArray().withMessage('Tiện ích phải là một mảng')
         .custom((value) => {
@@ -37,11 +40,6 @@ const baseUserValidation = [
             }
             return true;
         }),
-
-    body('contact.phone')
-        .trim()
-        .notEmpty().withMessage('Số điện thoại không được để trống')
-        .matches(/^(0|\+84)[3-9][0-9]{8}$/).withMessage('Số điện thoại không hợp lệ'),
 ];
 
 // Validation cho việc tạo mới rạp
@@ -60,6 +58,14 @@ exports.createTheaterValidation = [
         .isEmail().withMessage('Email không hợp lệ')
         .custom(async (value) => {
             await checkUniqueField('contact.email', value);
+        }),
+
+    body('contact.phone')
+        .trim()
+        .notEmpty().withMessage('Số điện thoại không được để trống')
+        .matches(/^(0|\+84)[3-9][0-9]{8}$/).withMessage('Số điện thoại không hợp lệ')
+        .custom(async (value) => {
+            await checkUniqueField('contact.phone', value);
         }),
 
     ...baseUserValidation,
@@ -82,6 +88,14 @@ exports.updateTheaterValidation = [
         .isEmail().withMessage('Email không hợp lệ')
         .custom(async (value, { req }) => {
             await checkUniqueField('contact.email', value, req.theater);
+        }),
+
+    body('contact.phone')
+        .trim()
+        .notEmpty().withMessage('Số điện thoại không được để trống')
+        .matches(/^(0|\+84)[3-9][0-9]{8}$/).withMessage('Số điện thoại không hợp lệ')
+        .custom(async (value, { req }) => {
+            await checkUniqueField('contact.phone', value, req.theater);
         }),
     
     ...baseUserValidation,

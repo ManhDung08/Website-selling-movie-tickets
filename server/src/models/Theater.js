@@ -6,7 +6,7 @@ const theaterSchema = new mongoose.Schema({
   name: { type: String, required: true },
   address: { type: String, required: true },
   city: { type: String, required: true },
-  totalRooms: { type: Number, required: true },
+  totalRooms: { type: Number, default: 0 },
   facilities: [String],
   contact: {
     phone: { type: String, required: true },

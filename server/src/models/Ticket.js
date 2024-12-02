@@ -14,7 +14,7 @@ const ticketSchema = new mongoose.Schema({
     },
   ],
   totalAmount: { type: Number, required: true },
-  paymentStatus: { type: String, enum: ["pending", "paid", "cancelled", "refunded"], required: true },
+  paymentStatus: { type: String, enum: ["pending", "paid", "cancelled", "refunded"], default: 'pending' },
   paymentMethod: { type: String, enum: ["momo", "VNPay", "zalopay"], required: true },
   bookingCode: { type: String, required: true },    //Mã đặt vé giúp xác nhận vé
   qrCode: { type: String, required: true },      //Mã QR quét tại quầy
