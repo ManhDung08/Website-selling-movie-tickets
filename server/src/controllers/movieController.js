@@ -1,95 +1,133 @@
-const adminMiddleware = require("../middleware/auth")
-const jwt = require("jsonwebtoken");
-const movieService = require("../services/MovieService");
+const movieService = require('../services/movieService');
+const createError = require('http-errors');
 
-export const CreateMovie = async (req, res) => {
-  const extractedToken = adminMiddleware(req,res,next);
-  if (!extractedToken) {
-    return res.status(404).json({ message: "Token Not Found" });
-  }
-
-  let adminId;
-  jwt.verify(extractedToken, process.env.SECRET_KEY, (err, decrypted) => {
-    if (err) {
-      return res.status(400).json({ message: `${err.message}` });
+// Tạo phim mới
+exports.createMovie = async (req, res, next) => {
+    try {
+        const movie = await movieService.createMovie(req.body);
+        res.status(201).json({
+            status: 'success',
+            message: 'Movie created successfully',
+            data: movie,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
     }
-    adminId = decrypted.id;
-  });
-
-  const result = await movieService.createMovie(req.body);
-
-  if (result.error) {
-    return res.status(result.statusCode).json({ message: result.message });
-  }
-
-  return res.status(201).json({ movie: result.movie });
 };
 
-
-export const getAllMovie = async (req, res, next) => {
-  let movies;
-  try {
-    movies = await movieService.getAllMovie()
-  } catch (err) {
-    console.log(err);
-  }
-
-  if (!movies) {
-    return res.status(500).json({ message: "Request Failed" });
-  }
-  return res.status(200).json({ movies });
+// Lấy phim theo ID
+exports.getMovieById = async (req, res, next) => {
+    try {
+        const movie = await movieService.getMovieById(req.params.id);
+        if (!movie) {
+            return next(createError(404, 'Movie not found'));
+        }
+        res.status(200).json({
+            status: 'success',
+            data: movie,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
 };
 
-export const getMovieById = async (req, res, next) => {
-  const id = req.params.id;
-  let movie;
-  try {
-    movie = await movieService.getMovieById.findById(id);
-  } catch (err) {
-    console.log(err);
-  }
+// Lấy danh sách phim
+exports.getAllMovies = async (req, res, next) => {
+    try {
+        const { page = 1, limit = 10, status, keyword, genre } = req.query;
+        let result;
 
-  if (!movie) {
-    return res.status(404).json({ message: "Invalid Movie Id" });
-  }
+        if (status) {
+            result = await movieService.getMoviesByStatus(status, Number(page), Number(limit));
+        } else if (keyword) {
+            result = await movieService.searchMovies(keyword, Number(page), Number(limit));
+        } else if (genre) {
+            result = await movieService.getMoviesByGenre(genre, Number(page), Number(limit));
+        } else {
+            result = await movieService.getAllMovies(Number(page), Number(limit));
+        }
 
-  return res.status(200).json({ movie });
+        res.status(200).json({
+            status: 'success',
+            data: result,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
 };
 
-
-export const deleteMovieById = async (req, res, next) => {
-  const id = req.params.id;
-
-  let movie;
-  try {
-    movie = await movieService.deleteMovieById(id, req.body)
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Something went wrong" });
-  }
-
-  if (!movie) {
-    return res.status(404).json({ message: "Movie not found" });
-  }
-
-  return res.status(200).json({ message: "Movie deleted successfully", movie });
+// Lấy thông tin phim kèm suất chiếu
+exports.getMovieWithShowtimes = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const result = await movieService.getMovieWithShowtimes(id);
+        res.status(200).json({
+            status: 'success',
+            data: result,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
 };
 
-export const updateMovie = async (req, res, next) => {
-  const id = req.params.id;
-  
-  let movie;
-  try {
-    movie = await movieService.updateMovie(id, req.body)
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Something went wrong" });
-  }
-
-  if (!movie) {
-    return res.status(404).json({ message: "Movie not found" });
-  }
-
-  return res.status(200).json({ message: "Movie deleted successfully", movie });
+// Cập nhật thông tin phim
+exports.updateMovie = async (req, res, next) => {
+    try {
+        const updatedMovie = await movieService.updateMovie(req.params.id, req.body);
+        if (!updatedMovie) {
+            return next(createError(404, 'Movie not found'));
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'Movie updated successfully',
+            data: updatedMovie,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
 };
 
+// Cập nhật trạng thái phim sang 'now-showing'
+exports.updateMovieToNowShowing = async (req, res, next) => {
+    try {
+        const result = await movieService.updateMovieToNowShowing();
+        res.status(200).json({
+            status: 'success',
+            message: 'Movies updated to now-showing successfully',
+            data: result,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
+
+// Cập nhật trạng thái phim sang 'ended'
+exports.updateMoviesToEnded = async (req, res, next) => {
+    try {
+        const result = await movieService.updateMoviesToEnded();
+        res.status(200).json({
+            status: 'success',
+            message: 'Movies updated to ended successfully',
+            data: result,
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
+
+// Xóa phim
+exports.deleteMovie = async (req, res, next) => {
+    try {
+        const deletedMovie = await movieService.deleteMovie(req.params.id);
+        if (!deletedMovie) {
+            return next(createError(404, 'Movie not found'));
+        }
+        res.status(200).json({
+            status: 'success',
+            message: 'Movie and related showtimes deleted successfully',
+            data: deletedMovie
+        });
+    } catch (err) {
+        next(createError(500, err.message));
+    }
+};
