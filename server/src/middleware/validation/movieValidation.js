@@ -35,7 +35,13 @@ const baseMovieValidation = [
         }),
 
     body('releaseDate')
-        .isISO8601().toDate().withMessage('Ngày phát hành không hợp lệ'),
+        .isISO8601().toDate().withMessage('Ngày phát hành không hợp lệ')
+        .custom((value) => {
+            if (value <= new Date()) {
+                throw new Error('Ngày phát hành phải lớn hơn ngày hiện tại.');
+            }
+            return true;
+        }),
 
     body('language')
         .optional()

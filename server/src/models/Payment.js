@@ -1,14 +1,15 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
+
+const PaymentMethodEnum = ['VNPay', 'momo', 'zalopay'], PaymentStatusEnum = ['pending', 'success', 'failed', 'refunded'];
 
 const paymentSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    tickets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ticket" }], // Mối quan hệ giữa Payment và Ticket
-    totalAmount: { type: Number, required: true },
-    paymentStatus: { type: String, enum: ["pending", "paid", "cancelled", "refunded"], required: true },
-    paymentMethod: { type: String, enum: ["momo", "VNPay", "zalopay"], required: true },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-  });
-  
+  ticketId: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  amount: { type: Number, required: true, min: 0 },
+  paymentMethod: { type: String, enum: PaymentMethodEnum, required: true },
+  transactionCode: { type: String, required: true, unique: true, trim: true },
+  status: { type: String, enum: PaymentStatusEnum, default: 'pending' },
+  paymentDate: { type: Date, default: Date.now }
+}, { timestamps: true });
 
-export default mongoose.model("Payment", paymentSchema);
+module.exports = mongoose.model('Payment', paymentSchema);

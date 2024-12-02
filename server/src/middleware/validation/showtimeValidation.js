@@ -2,6 +2,7 @@ const { body, param } = require('express-validator');
 const Movie = require('../../models/Movie');
 const Theater = require('../../models/Theater');
 const Room = require('../../models/Room');
+const Ticket = require('../../models/Ticket');
 const validate = require('./validate');
 
 const validateShowtimeOverlap = async (movieId, theaterId, roomId, startTime, endTime, showtimeId = null) => {
@@ -129,6 +130,14 @@ exports.updateShowtimeValidation = [
 
 exports.deleteShowtimeValidation = [
     param('id')
-        .isMongoId().withMessage('ID suất chiếu không hợp lệ'),
+        .isMongoId().withMessage('ID suất chiếu không hợp lệ')
+        .custom(async (value) => {
+            // Kiểm tra xem có vé nào đã được đặt cho suất chiếu này không
+            const ticketCount = await Ticket.countDocuments({ showtimeId: value });
+            if (ticketCount > 0) {
+                throw new Error('Không thể xóa suất chiếu vì đã có vé được đặt.');
+            }
+            return true;
+        }),
     validate
 ];

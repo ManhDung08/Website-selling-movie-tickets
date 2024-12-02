@@ -1,20 +1,43 @@
 const { body, param } = require('express-validator');
-const User = require('../../models/User');
+const Ticket = require('../../models/Ticket');
 const Showtime = require('../../models/Showtime');
+const User = require('../../models/User');
 const validate = require('./validate');
 
-const validateSeats = async (seats, showtimeId) => {
+
+// Kiểm tra ghế đã được đặt 
+const validateSeatsAvailability = async (seats, showtimeId) => {
     if (!Array.isArray(seats) || seats.length === 0) {
         throw new Error('Danh sách ghế không hợp lệ');
     }
 
+    const existingTickets = await Ticket.find({
+        showtimeId,
+        paymentStatus: { $in: ['pending', 'paid'] }
+    });
+
+    const reservedSeats = new Set(
+        existingTickets.flatMap((ticket) =>
+            ticket.seats.map((seat) => `${seat.row}-${seat.number}`)
+        )
+    );
+
+    seats.forEach((seat) => {
+        const seatKey = `${seat.row}-${seat.number}`;
+        if (reservedSeats.has(seatKey)) {
+            throw new Error(`Ghế ${seatKey} đã được đặt`);
+        }
+    });
+};
+
+// Validate ghế và tính toán tổng số tiền
+const validateSeats = async (seats, showtimeId) => {
     const showtime = await Showtime.findById(showtimeId);
     if (!showtime) {
         throw new Error('Suất chiếu không tồn tại');
     }
 
     const seenSeats = new Set();
-
     let totalAmount = 0;
     seats.forEach((seat, index) => {
         // Validate seat uniqueness
@@ -29,9 +52,12 @@ const validateSeats = async (seats, showtimeId) => {
             throw new Error(`Loại ghế tại vị trí ${index} không hợp lệ`);
         }
 
-        // Calculate total amount based on seat type
+        // Tính toán tổng tiền dựa trên loại ghế
         totalAmount += seat.price || 0;
     });
+
+    // Kiểm tra ghế đã được đặt 
+    await validateSeatsAvailability(seats, showtimeId);
 
     return totalAmount;
 };
@@ -104,4 +130,9 @@ exports.deleteTicketValidation = [
     param('id')
         .isMongoId().withMessage('ID vé không hợp lệ'),
     validate
+];
+
+exports.validateCancelTicket = [
+    param('id')
+        .isMongoId().withMessage('ID vé không hợp lệ'),
 ];
