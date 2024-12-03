@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const showtimeController = require('../controllers/ShowtimeController');
-const showtimeValidation = require('../validations/ShowtimeValidation');
+const showtimeValidation = require('../middleware/validation/ShowtimeValidation');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // Lấy danh sách suất chiếu với các tùy chọn lọc và phân trang
