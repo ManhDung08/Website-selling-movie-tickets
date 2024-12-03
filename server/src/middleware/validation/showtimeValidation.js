@@ -3,7 +3,7 @@ const Movie = require('../../models/Movie');
 const Theater = require('../../models/Theater');
 const Room = require('../../models/Room');
 const Ticket = require('../../models/Ticket');
-const validate = require('./validate');
+const validate = require('./Validate');
 
 const validateShowtimeOverlap = async (movieId, theaterId, roomId, startTime, endTime, showtimeId = null) => {
     const query = {

@@ -1,4 +1,4 @@
-const theaterService = require('../services/theaterService');
+const theaterService = require('../services/TheaterService');
 const createError = require('http-errors');
 
 // Tạo rạp mới

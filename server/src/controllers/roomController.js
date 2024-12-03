@@ -1,4 +1,4 @@
-const roomService = require('../services/roomService');
+const roomService = require('../services/RoomService');
 const createError = require('http-errors');
 
 // Tạo phòng chiếu mới

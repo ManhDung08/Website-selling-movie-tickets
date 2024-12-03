@@ -1,4 +1,4 @@
-const movieService = require('../services/movieService');
+const movieService = require('../services/MovieService');
 const createError = require('http-errors');
 
 // Tạo phim mới
@@ -81,34 +81,6 @@ exports.updateMovie = async (req, res, next) => {
             status: 'success',
             message: 'Movie updated successfully',
             data: updatedMovie,
-        });
-    } catch (err) {
-        next(createError(500, err.message));
-    }
-};
-
-// Cập nhật trạng thái phim sang 'now-showing'
-exports.updateMovieToNowShowing = async (req, res, next) => {
-    try {
-        const result = await movieService.updateMovieToNowShowing();
-        res.status(200).json({
-            status: 'success',
-            message: 'Movies updated to now-showing successfully',
-            data: result,
-        });
-    } catch (err) {
-        next(createError(500, err.message));
-    }
-};
-
-// Cập nhật trạng thái phim sang 'ended'
-exports.updateMoviesToEnded = async (req, res, next) => {
-    try {
-        const result = await movieService.updateMoviesToEnded();
-        res.status(200).json({
-            status: 'success',
-            message: 'Movies updated to ended successfully',
-            data: result,
         });
     } catch (err) {
         next(createError(500, err.message));

@@ -1,4 +1,4 @@
-const Payment = require('../models/paymentModel'); // Model payment
+const Payment = require('../models/Payment'); 
 const crypto = require('crypto');
 const moment = require('moment');
 const config = require('config');

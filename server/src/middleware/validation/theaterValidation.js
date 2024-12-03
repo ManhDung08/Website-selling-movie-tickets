@@ -1,6 +1,6 @@
 const { body, param } = require('express-validator');
 const Theater = require('../../models/Theater');
-const validate = require('./validate');
+const validate = require('./Validate');
 
 const checkUniqueField = async (field, value, theater = null) => {
     const query = { [field]: value };
