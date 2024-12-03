@@ -2,7 +2,7 @@ const { body, param } = require('express-validator');
 const Ticket = require('../../models/Ticket');
 const Showtime = require('../../models/Showtime');
 const User = require('../../models/User');
-const validate = require('./validate');
+const validate = require('./Validate');
 
 
 // Kiểm tra ghế đã được đặt 

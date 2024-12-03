@@ -1,4 +1,4 @@
-const ticketService = require('../services/ticketService');
+const ticketService = require('../services/TicketService');
 const Ticket = require('../models/Ticket');
 const Showtime = require('../models/Showtime');
 

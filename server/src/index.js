@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/dbConfig');
 const routes = require('./routes');  // Thư mục routes chứa các route controllers
 const { errorHandler } = require('./middleware/error');
+const { scheduleJobs } = require('./cronJobs');
 const path = require('path');
 
 // Load env vars
@@ -26,6 +27,8 @@ app.use(errorHandler);
 
 // Connect to database
 connectDB();
+
+scheduleJobs();
 
 // Start server
 const PORT = process.env.PORT;

@@ -1,4 +1,4 @@
-const showtimeService = require('../services/showtimeService');
+const showtimeService = require('../services/ShowtimeService');
 const createError = require('http-errors');
 
 // Tạo suất chiếu mới

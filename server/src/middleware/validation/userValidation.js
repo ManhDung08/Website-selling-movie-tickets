@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 const User = require('../../models/User');
 const bcrypt = require('bcrypt');
-const validate = require('./validate');
+const validate = require('./Validate');
 
 // Kiểm tra username hoặc email đã tồn tại
 const checkUniqueField = async (field, value, user = null) => {
