@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ticketController = require('../controllers/TicketController');
-const ticketValidation = require('../validations/TicketValidation');
+const ticketValidation = require('../middleware/validation/TicketValidation');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // Lấy danh sách vé (chỉ admin)

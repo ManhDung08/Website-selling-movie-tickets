@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const theaterController = require('../controllers/TheaterController');
-const theaterValidation = require('../validations/TheaterValidation');
+const theaterValidation = require('../middleware/validation/TheaterValidation');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // Lấy danh sách rạp với các tùy chọn lọc và phân trang

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const roomController = require('../controllers/RoomController');
-const roomValidation = require('../validations/RoomValidation');
+const roomValidation = require('../middleware//validation/RoomValidation');
 const { adminMiddleware, authMiddleware } = require('../middleware/auth');
 
 // Lấy danh sách phòng chiếu với các tùy chọn lọc và phân trang

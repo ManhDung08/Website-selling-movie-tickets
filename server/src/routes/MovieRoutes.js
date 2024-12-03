@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const movieController = require('../controllers/MovieController');
-const movieValidation = require('../validations/MovieValidation');
+const movieValidation = require('../middleware/validation/MovieValidation');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 // **Routes chỉ dành cho Admin**
