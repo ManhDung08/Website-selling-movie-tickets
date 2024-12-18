@@ -73,6 +73,10 @@
     {
       "id": 1,
       "tenPhim": "Phim A",
+      "posterPhim": "https://bhdstar.vn/wp-content/uploads/2024/12/002_.jpg",
+      "thoiLuong": "120p",
+      "year" : "2024",
+      "cast":["anh a", "anh b", "anh c"],
       "lichChieu": [
         {
           "maLichChieu": 1,
@@ -84,9 +88,28 @@
     {
         "id": 2,
         "tenPhim": "Phim Abcd",
+        "posterPhim":"https://bhdstar.vn/wp-content/uploads/2024/12/001_.jpg",
+        "thoiLuong": "120p",
+      "year" : "2024",
+      "cast":["anh a", "anh b", "anh c"],
         "lichChieu": [
           {
             "maLichChieu": 2,
+            "gioChieu": "2024-12-01T20:00",
+            "giaVe": 100000
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "tenPhim": "Phim xyz",
+        "posterPhim":"https://bhdstar.vn/wp-content/uploads/2024/12/003_.jpg",
+        "thoiLuong": "120p",
+      "year" : "2024",
+      "cast":["anh a", "anh b", "anh c"],
+        "lichChieu": [
+          {
+            "maLichChieu": 3,
             "gioChieu": "2024-12-01T20:00",
             "giaVe": 100000
           }
