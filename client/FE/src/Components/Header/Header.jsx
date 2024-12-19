@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import useStyles from './styles'
+import useStyles from './HeaderDesktop'
 import { OPEN_MODAL } from "../../reducers/constants/ModalTrailer";
 const play = "/img/carousel/play-video.png";
 BtnPlay.propTypes = {
