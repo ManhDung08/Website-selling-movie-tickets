@@ -67,14 +67,17 @@ exports.createTicket = async (ticketData) => {
         const qrCode = await generateQRCode(bookingCode);
 
         // Tính toán tổng giá vé
-        const totalAmount = ticketData.seats.reduce((total, seat) => total + seat.price, 0);
+        const seatsAmount = ticketData.seats.reduce((total, seat) => total + seat.price, 0);
+        
+        // Tính tổng tiền bỏng nước
+        const itemsAmount = ticketData.items ? ticketData.items.reduce((total, item) => total + item.price, 0) : 0;
 
         // Thêm mã đặt vé, QR code và tổng giá vé vào dữ liệu vé
         const ticketWithCodes = {
             ...ticketData,
             bookingCode,
             qrCode,
-            totalAmount,
+            totalAmount: seatsAmount + itemsAmount,
         };
 
         // Lưu vé mới
@@ -88,7 +91,11 @@ exports.createTicket = async (ticketData) => {
         await session.commitTransaction();
         session.endSession();
 
-        return ticket.populate(['userId', 'showtimeId']);
+        // Populate ticket và gửi email xác nhận
+        const populatedTicket = await ticket.populate(['userId', 'showtimeId', 'items.concessionId']);
+        await emailService.sendTicketConfirmationEmail(populatedTicket, user);
+
+        return populatedTicket;
     } catch (error) {
         // Rollback transaction nếu có lỗi
         await session.abortTransaction();
@@ -116,7 +123,7 @@ exports.updateShowtimeStatus = async (showtimeId, session) => {
 
 // Lấy vé theo ID
 exports.getTicketById = async (ticketId) => {
-    return Ticket.findById(ticketId).populate(['userId', 'showtimeId']);
+    return Ticket.findById(ticketId).populate(['userId', 'showtimeId', 'items.concessionId']);
 };
 
 // Lấy danh sách vé với phân trang
@@ -125,7 +132,7 @@ exports.getAllTickets = async (page = 1, limit = 10) => {
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ createdAt: -1 })
-        .populate(['userId', 'showtimeId']);
+        .populate(['userId', 'showtimeId', 'items.concessionId']);
 
     const totalTickets = await Ticket.countDocuments();
 
@@ -143,7 +150,7 @@ exports.getTicketsByUser = async (userId, page = 1, limit = 10) => {
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ createdAt: -1 })
-        .populate(['userId', 'showtimeId']);
+        .populate(['userId', 'showtimeId', 'items.concessionId']);
 
     const totalTickets = await Ticket.countDocuments({ userId });
 
@@ -161,7 +168,7 @@ exports.updatePaymentStatus = async (ticketId, paymentStatus) => {
         ticketId, 
         { paymentStatus }, 
         { new: true }
-    ).populate(['userId', 'showtimeId']);
+    ).populate(['userId', 'showtimeId', 'items.concessionId']);
 };
 
 // Hủy vé

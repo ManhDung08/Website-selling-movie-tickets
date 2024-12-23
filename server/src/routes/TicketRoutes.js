@@ -36,4 +36,18 @@ router.delete('/:id/cancel',
     ticketController.cancelTicket
 );
 
+// Cập nhật trạng thái thanh toán (chỉ admin)
+router.patch('/:id/payment-status',
+    adminMiddleware,
+    ticketValidation.updateTicketValidation,
+    ticketController.updatePaymentStatus
+);
+
+// Hủy vé (chỉ admin)
+router.delete('/:id/cancel', 
+    adminMiddleware, 
+    ticketValidation.validateCancelTicket, 
+    ticketController.cancelTicket
+);
+
 module.exports = router;

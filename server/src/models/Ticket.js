@@ -13,6 +13,23 @@ const ticketSchema = new mongoose.Schema({
       price: { type: Number, required: true },
     },
   ],
+  items: [{
+    concessionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Concession',
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    notes: String
+  }],
   totalAmount: { type: Number, required: true },
   paymentStatus: { type: String, enum: ["pending", "paid", "cancelled", "refunded"], default: 'pending' },
   paymentMethod: { type: String, enum: ["momo", "VNPay", "zalopay"], required: true },

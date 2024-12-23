@@ -10,6 +10,11 @@ const userSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
   phone: { type: String, required: true },
   dateOfBirth: { type: Date },
+  isEmailVerified: { type: Boolean, default: false },
+  emailVerificationToken: String,
+  emailVerificationExpires: Date,
+  isActive: { type: Boolean, default: false },
+  googleId: { type: String, unique: true, sparse: true }
 },{ timestamps: true });
 
 // Hash password before saving

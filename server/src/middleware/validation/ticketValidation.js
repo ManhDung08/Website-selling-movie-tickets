@@ -62,6 +62,36 @@ const validateSeats = async (seats, showtimeId) => {
     return totalAmount;
 };
 
+const validateItems = async (items) => {
+    if (!Array.isArray(items)) {
+        throw new Error('Danh sách items không hợp lệ');
+    }
+
+    let totalItemsAmount = 0;
+    for (const item of items) {
+        const concession = await Concession.findById(item.concessionId);
+        if (!concession) {
+            throw new Error(`Concession ${item.concessionId} không tồn tại`);
+        }
+        
+        if (concession.status !== 'available') {
+            throw new Error(`${concession.name} hiện không có sẵn`);
+        }
+
+        if (item.quantity < 1) {
+            throw new Error('Số lượng phải lớn hơn 0');
+        }
+
+        if (item.price !== concession.price * item.quantity) {
+            throw new Error('Giá không khớp với số lượng');
+        }
+
+        totalItemsAmount += item.price;
+    }
+
+    return totalItemsAmount;
+};
+
 const baseTicketValidation = [
     body('showtimeId')
         .isMongoId().withMessage('ID suất chiếu không hợp lệ')
@@ -76,6 +106,17 @@ const baseTicketValidation = [
     body('seats')
         .custom(async (seats, { req }) => {
             req.calculatedTotalAmount = await validateSeats(seats, req.body.showtimeId);
+            return true;
+        }),
+
+    body('items')
+        .optional()
+        .isArray().withMessage('Items phải là một mảng')
+        .custom(async (items, { req }) => {
+            if (items && items.length > 0) {
+                const itemsAmount = await validateItems(items);
+                req.calculatedTotalAmount = (req.calculatedTotalAmount || 0) + itemsAmount;
+            }
             return true;
         }),
 
