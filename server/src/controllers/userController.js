@@ -106,33 +106,3 @@ exports.changePassword = async (req, res, next) => {
         next(createError(500, err.message));
     }
 };
-
-//Đăng nhập
-exports.login = async (req, res, next) => {
-    try {
-        const { username, password } = req.body;
-
-        //Kiểm tra username
-        const user = await userService.getUserByUsername(username);
-        if (!user) {
-            return next(createError(404, 'User not found'));
-        }
-
-        // Kiểm tra mật khẩu
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return next(createError(401, 'Invalid credentials'));
-        }
-
-        // Generate a JWT token
-        const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.status(200).json({
-            status: 'success',
-            message: 'Login successful',
-            token,
-        });
-    } catch (err) {
-        next(createError(500, err.message));
-    }
-};
