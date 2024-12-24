@@ -11,7 +11,7 @@ const Slider = ({filmProfiles}) => {
   return (
     <div className=" py-8">
       <Swiper
-        modules={[Navigation, Pagination]}
+         modules={[Navigation]}
         navigation
         pagination={{ clickable: true }}
         spaceBetween={20}
@@ -25,7 +25,7 @@ const Slider = ({filmProfiles}) => {
       >
         {filmProfiles.map((film, index) => (
           <SwiperSlide key={index}>
-             <CardComp key={film.name} {...film} />
+             <CardComp key={film.title} {...film} />
           </SwiperSlide>
         ))}
       </Swiper>
