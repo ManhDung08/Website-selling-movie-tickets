@@ -1,18 +1,34 @@
 import React, { useRef, useEffect, useState } from "react";
+import Modal from "../Modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { userDetail } from "../../services/userService";
+import { clearUser } from "../../redux/userSlice";
 
 export default function NavbarComp() {
-  const navRef = useRef(null); // Tham chiếu tới nav
-  const [navHeight, setNavHeight] = useState(0); // State để lưu chiều cao của nav
-
+  const user = useSelector(state => state.user);
+  console.log('user', user)
+  const navRef = useRef(null); 
+  const [navHeight, setNavHeight] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useDispatch();
+  const getUser = async(id)=>{
+    const res = await userDetail(id)
+    console.log('res', res)
+  }
   useEffect(() => {
+    if(user.id){
+      getUser(user.id);
+    }
     if (navRef.current) {
-      // Lấy chiều cao của nav sau khi render
+
       setNavHeight(navRef.current.offsetHeight);
     }
   }, []);
 
   return (
 <header style={{ marginTop: `${navHeight}px` }}>
+  <Modal openModal= {openModal} setOpenModal= {setOpenModal} isLogin= {isLogin} setIsLogin= {setIsLogin}></Modal>
 <nav
         ref={navRef}
         className="bg-[#0A1A2F] text-white px-6 py-4 fixed inset-x-0 top-0 z-50"
@@ -59,9 +75,20 @@ export default function NavbarComp() {
 
           {/* Right Side Options */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="#login" className="hover:underline">
-              Đăng nhập
-            </a>
+            {user.username ?(
+              <>
+                <p>{user.username}</p>
+                <a onClick={()=>dispatch(clearUser())} className="hover:underline cursor-pointer">
+                  Đăng xuất
+                </a>
+              </>
+            ) :(
+              <a onClick={()=>setOpenModal(true)} className="hover:underline cursor-pointer">
+                Đăng nhập
+              </a>
+            )
+            }
+           
           </div>
         </div>
 

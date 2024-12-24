@@ -1,50 +1,40 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function CardComp(filmProfile) {
     return (
 
             <div className="flex flex-col group ">
-                <a href="">
+                <Link to={`/detail/${filmProfile._id}`}>
                     <div className="w-full relative  overflow-hidden border-2 border-white">
                         <img className="object-cover aspect-[2/3] w-full"
-                            src={filmProfile.img}
+                            src={filmProfile.poster}
                             alt=""/>
                         <div
                             className="absolute top-0 left-0 flex opacity-100 translate-y-0 group-hover:opacity-0 group-hover:-translate-y-11 transition-all duration-300 ease-in-out">
                             <div className="p-2 bg-orange-500 "> <span
-                                    className="border-2 p-0.5 border-black rounded h-2 text-xs">filmProfile.displayType</span></div>
+                                    className="border-2 p-0.5 border-black rounded h-2 text-xs">2D</span></div>
                             <div className="bg-red-500 flex flex-col p-2">
                                 <p className="text-center "> </p>
-                                <span className="text-center text-[5px] text-white bg-black mx-auto">filmProfile.adult</span>
+                                <span className="text-center text-[5px] text-white bg-black mx-auto">{filmProfile.director}</span>
                             </div>
                         </div>
                         <div
                             className="absolute flex flex-col text-white bg-black/[0.7] top-0 left-0 bottom-0 right-0 flex opacity-0 translate-y-11 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-in-out">
                             <div className="my-auto px-2">
-                                <p className="text-ellipsis text-center my-5 uppercase line-clamp-2 ">{filmProfile.name}</p>
-                                <div className="flex mb-2">
-                                    <img alt="" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
-                                        className="me-2" src="https://cinestar.com.vn/assets/images/icon-tag.svg"
-                                        style={{color: "transparent"}}/>
-                                    <span className="text-xs">Kinh Dị</span>
-                                </div>
-                                <div className="flex mb-2">
-                                    <img alt="" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
-                                        className="me-2" src="https://cinestar.com.vn/assets/images/icon-tag.svg"
-                                        style={{color: "transparent"}}/>
-                                    <span className="text-xs">Kinh Dị</span>
-                                </div>
-                                <div className="flex mb-2">
-                                    <img alt="" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
-                                        className="me-2" src="https://cinestar.com.vn/assets/images/icon-tag.svg"
-                                        style={{color: "transparent"}}/>
-                                    <span className="text-xs">Kinh Dị</span>
-                                </div>
-
+                                <p className="text-ellipsis text-center my-5 uppercase line-clamp-2 ">{filmProfile.title}</p>
+                                {filmProfile.genre.map((data)=>(
+                                    <div className="flex mb-2">
+                                        <img alt="" loading="lazy" width="24" height="24" decoding="async" data-nimg="1"
+                                            className="me-2" src="https://cinestar.com.vn/assets/images/icon-tag.svg"
+                                            style={{color: "transparent"}}/>
+                                        <span className="text-xs">{data}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
-                </a>
+                </Link>
                 <div className='flex flex-col '>
                    
                         <a className="" href="">
@@ -69,11 +59,5 @@ export default function CardComp(filmProfile) {
                             </div>
                         </div>
             </div>
-            
-
-
-      
-        
-   
     )
 }

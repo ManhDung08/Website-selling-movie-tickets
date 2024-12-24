@@ -9,10 +9,29 @@ import Slider from './Components/Slider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Showing from './Page/Showing';
 import Upcoming from './Page/Upcoming';
+import FirmDetail from './Page/FirmDetail';
+import Checkout from './Page/Checkout';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { setUser } from './redux/userSlice';
+import { jwtDecode } from 'jwt-decode';
 
 export default function App() {
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const { userId, username } = decoded;
+        dispatch(setUser({ userId, username, token }));
+      } catch (error) {
+        console.error('Invalid token:', error);
+      }
+    }
+  }, [dispatch,token]);
   return (
-    <div className='bg-purple-400'>
+    <div className=''>
      
        
      
@@ -21,6 +40,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/Showing" element={<Showing />} />
           <Route path="/Upcoming" element={<Upcoming />} />
+          <Route path="/detail/:id" element={<FirmDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          
         </Routes>
       </BrowserRouter>
     </div>
