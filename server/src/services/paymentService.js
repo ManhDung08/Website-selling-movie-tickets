@@ -8,7 +8,7 @@ exports.createPayment = async (ticketId, userId, amount, paymentMethod, bankCode
   try {
     const date = new Date();
     const orderId = moment(date).format('DDHHmmss');
-    const transactionCode = crypto.randomBytes(8).toString('hex'); // Mã giao dịch ngẫu nhiên nhỏ hơn
+    const transactionCode = crypto.randomBytes(8).toString('hex');
     const payment = new Payment({
       ticketId,
       userId,
@@ -26,14 +26,14 @@ exports.createPayment = async (ticketId, userId, amount, paymentMethod, bankCode
 };
 
 // Logic tạo URL thanh toán cho VNPay
-exports.createPaymentUrl = async (amount, content, req, bankCode = '') => {
+exports.createPaymentUrl = async (payment, content, req, bankCode = '') => {
   try {
     const date = new Date();
     const createDate = moment(date).format('YYYYMMDDHHmmss');
     const expireDate = moment(date).add(15, 'minutes').format('YYYYMMDDHHmmss');
 
     const tmnCode = "TXOOZNX4";
-    const txnRef = getRandomNumber(8);
+    const txnRef = payment.transactionCode;
     const ipAddr = getIpAddress(req);
     const secretKey = "HUQHTRVXVRGJJWHMBFCAUBAXOSAJBIND";
     const vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -43,7 +43,7 @@ exports.createPaymentUrl = async (amount, content, req, bankCode = '') => {
       vnp_Version: '2.1.0',
       vnp_Command: 'pay',
       vnp_TmnCode: tmnCode,
-      vnp_Amount: (amount * 100).toString(),
+      vnp_Amount: (payment.amount * 100).toString(),
       vnp_CurrCode: 'VND',
       vnp_BankCode: bankCode,
       vnp_TxnRef: txnRef,
@@ -87,15 +87,6 @@ exports.createPaymentUrl = async (amount, content, req, bankCode = '') => {
     throw new Error('Error creating payment URL: ' + error.message);
   }
 };
-
-function getRandomNumber(length) {
-  let result = '';
-  const characters = '0123456789';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
 
 function getIpAddress(req) {
   if (!req) return '127.0.0.1'; // Trả về localhost nếu không có req
