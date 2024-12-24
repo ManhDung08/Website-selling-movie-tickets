@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.container {
-    width: 90%;
-    margin: 0  auto;
-}
-.btn-theme {
-    @apply border-black border-2 px-5 py-2 rounded;
-}
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
