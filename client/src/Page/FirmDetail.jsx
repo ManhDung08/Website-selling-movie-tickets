@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import FooterComp from '../Components/Footer/FooterComp'
 import NavbarComp from '../Components/Navbar/NavbarComp'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { getProductDetail } from '../services/productService'
 
 const FirmDetail = () => {
   const { id } = useParams();
+  const native = useNavigate()
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [productDetail, setProductDetail] = useState({});
   const [selectedDistrict, setSelectedDistrict] = useState("Hoàng Mai");
@@ -442,7 +443,11 @@ const FirmDetail = () => {
                       <span className='text-xs text-black'>{branch.address}</span>
                       <div className='mt-2'>
                         {branch.showtimes.map((data,index)=>(
-                          <span onClick={()=> window.location.href="/checkout"} className='p-1 px-2 border rounded-md mr-2 hover:bg-slate-800 hover:text-white'>
+                          <span  onClick={() => native("/checkout", { state: {cinemaD:branch.name, data, productTitle: productDetail.title,cinema:cinema.title } })}
+
+                          className='p-1 px-2 border rounded-md mr-2 hover:bg-slate-800 hover:text-white'
+
+                        >
                             {data}
                           </span>
                         ))}

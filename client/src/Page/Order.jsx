@@ -5,27 +5,60 @@ import FooterComp from "../Components/Footer/FooterComp";
 
     const OrderList = () => {
     const [orders, setOrders] = useState([]);
-    const [currentUser, setCurrentUser] = useState("");
-    const user = useSelector((state)=>state.user).id
-    useEffect(() => {
-        const storedOrders = JSON.parse(localStorage.getItem("checkoutData")) || [];
-        console.log("Stored Orders:", storedOrders);
+    const user = useSelector((state)=>state.user)
 
-        setOrders(storedOrders);
-        setCurrentUser(user);
-    }, []);
-    const userOrders = orders.filter((order) => order.user === currentUser);
+    const userId = user.id
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const vnp_ResponseCode = urlParams.get('vnp_ResponseCode');
+
+
+
+    useEffect(() => {
+
+        const storedOrders = JSON.parse(localStorage.getItem("checkoutData")) || [];
+
+        if(vnp_ResponseCode==="00"){
+
+            const pendingOrder = storedOrders.find((order) => order.status === "pedding");
+
+
+
+            if (pendingOrder) {
+
+                console.log("Pending Order found:", pendingOrder);
+
+                pendingOrder.status = "done";
+
+                localStorage.setItem("checkoutData", JSON.stringify(storedOrders));
+
+            }
+
+        }
+
+        console.log('storedOrders', storedOrders)
+
+        const userOrders = storedOrders.filter((order) => order.user === userId);
+
+        console.log('userOrders', userOrders)
+
+        setOrders(userOrders);
+
+    }, [userId]);
+
+    console.log('orders', orders)
 
     return (
         <div >
             <NavbarComp></NavbarComp>
             <div className="container mx-auto p-6">
                 <h1 className="text-2xl text-center font-bold mb-4">Danh sách vé của bạn</h1>
-                {userOrders.length === 0 ? (
+                {orders.length === 0 ? (
                     <p className="text-gray-500">Chưa có vé nào.</p>
                 ) : (
                     <div className="space-y-4">
-                    {userOrders.map((order) => (
+                    {orders.map((order) => (
                         <div
                         key={order.idOrder}
                         className="border p-4 rounded-lg shadow-md bg-gray-100"

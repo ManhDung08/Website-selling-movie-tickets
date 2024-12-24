@@ -4,22 +4,12 @@ const Payment = require('../models/Payment');
 //Tạo giao dịch thanh toán
 exports.createPayment = async (req, res) => {
   try {
-    const { ticketId, userId, amount, paymentMethod, bankCode } = req.body;
-
-    // Tạo giao dịch thanh toán trong cơ sở dữ liệu
-    const payment = await paymentService.createPayment(ticketId, userId, amount, paymentMethod, bankCode);
-
-    const content = `Thanh toán vé xem phim cho giao dịch có mã ${payment.transactionCode}`;
-    // Tạo URL thanh toán VNPay
-    const paymentUrl = await paymentService.createPaymentUrl(payment, content, req, bankCode);
-
-    // Trả về URL thanh toán cho người dùng
-    res.status(200).json({ paymentUrl });
+    const payment = await paymentService.createPayment(req);
+    res.status(200).json({ payment });
   } catch (error) {
     res.status(500).json({ message: 'Error creating payment', error: error.message });
   }
 };
-
 
 //Xử lý trả về từ VNPay
 exports.vnpayReturn = (req, res) => {
