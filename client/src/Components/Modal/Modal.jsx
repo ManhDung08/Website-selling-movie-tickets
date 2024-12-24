@@ -141,10 +141,7 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
   return (
     <div className="fixed z-50 top-0 bottom-0 right-0 left-0 bg-[#000000c2]">
       {errorMessage && (
-    <div className="fixed z-50 top-0 bottom-0 right-0 left-0 bg-[#000000c2]">
-      {errorMessage && (
         <div className="fixed top-[120px] right-3 transform -translate-x-1/2 z-[1000] bg-red-600 text-white py-2 px-4 rounded-md shadow-lg">
-          {errorMessage}
           {errorMessage}
         </div>
       )}
@@ -153,105 +150,39 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
           {successMessage}
         </div>
       )}
-      {showVerifyMessage && (
-        <div className="fixed top-[120px] right-3 transform -translate-x-1/2 z-[1000] bg-blue-600 text-white py-2 px-4 rounded-md shadow-lg">
-          Vui lòng kiểm tra email để xác minh tài khoản
-        </div>
-      )}
       <div className="min-h-screen flex items-center justify-center pt-20">
         <div ref={modalRef} className="w-full max-w-xl bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-center text-2xl font-semibold text-red-600 mb-6">
             {isLogin ? "Đăng Nhập" : "Đăng Ký"}
           </h2>
           <form onSubmit={handleSubmit}>
-            {!isLogin && (
-              <div className="grid grid-cols-2 gap-4">
-                <div className="mb-4">
-                  <label htmlFor="username" className="block text-sm font-medium text-red-700">
-                    Tên người dùng
-                  </label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                    placeholder="Nhập tên người dùng"
-                    value={formData.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="fullName" className="block text-sm font-medium text-red-700">
-                    Họ và tên
-                  </label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                    placeholder="Nhập họ và tên"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="phone" className="block text-sm font-medium text-red-700">
-                    Số điện thoại
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                    placeholder="Nhập số điện thoại"
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="dateOfBirth" className="block text-sm font-medium text-red-700">
-                    Ngày sinh
-                  </label>
-                  <input
-                    type="date"
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                    value={formData.dateOfBirth}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-            )}
-            <div className={`grid ${!isLogin ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
-              <div className="mb-4">
-                <label htmlFor="username" className="block text-sm font-medium text-red-700">
-                  Username
-                </label>
-                <input
-                  type="username"
-                  id="username"
-                  name="username"
-                  className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                  placeholder="Nhập username"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-medium text-red-700">
-                  Mật khẩu
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
-                  placeholder="Nhập mật khẩu"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </div>
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-sm font-medium text-red-700">
+                Tên người dùng
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                placeholder="Nhập tên người dùng"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-sm font-medium text-red-700">
+                Mật khẩu
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="mt-1 block w-full px-4 py-2 border border-red-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+                placeholder="Nhập mật khẩu"
+                value={formData.password}
+                onChange={handleChange}
+              />
             </div>
             {!isLogin && (
               <div className="mb-4">
@@ -275,7 +206,6 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
             >
               {isLogin ? "Đăng Nhập" : "Đăng Ký"}
             </button>
-            
             {isLogin && (
               <button
                 type="button"
