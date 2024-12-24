@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { login, register } from "../../services/authService";
+import authService from "../../services/authService";
 
 const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [fullName, setFullName] = useState("");  // Tên đầy đủ
-  const [phoneNumber, setPhoneNumber] = useState("");  // Số điện thoại
+  const [fullName, setFullName] = useState(""); // Tên đầy đủ
+  const [phoneNumber, setPhoneNumber] = useState(""); // Số điện thoại
   const [errorMessage, setErrorMessage] = useState("");
   const [sucessMessage, setSucessMessage] = useState("");
   const modalRef = useRef();
@@ -23,11 +23,13 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
       const timer = setTimeout(() => {
         setErrorMessage("");
       }, 3000);
+      return () => clearTimeout(timer);
     }
     if (sucessMessage) {
       const timer = setTimeout(() => {
         setSucessMessage("");
       }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [errorMessage, sucessMessage]);
 
@@ -44,10 +46,11 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
       setErrorMessage("Mật khẩu phải có ít nhất 6 ký tự");
       return;
     }
+
     if (isLogin) {
       try {
-        const data = await login({ email, password });
-        setSucessMessage("Login successful:");
+        const data = await authService.login({ email, password });
+        setSucessMessage("Đăng nhập thành công");
         localStorage.setItem("token", data.token);
         setUsername("");
         setEmail("");
@@ -56,7 +59,7 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
           window.location.href = "/";
         }, 1000);
       } catch (error) {
-        console.log("Login failed:", error);
+        setErrorMessage("Đăng nhập thất bại: " + (error.response?.data?.message || error.message));
       }
     } else {
       if (password !== confirmPassword) {
@@ -64,23 +67,22 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
         return;
       }
 
-      // Kiểm tra các trường mới (Tên đầy đủ và Số điện thoại)
       if (!fullName || !phoneNumber) {
         setErrorMessage("Vui lòng điền đầy đủ Tên đầy đủ và Số điện thoại.");
         return;
       }
 
       try {
-        const data = await register({ username, email, password, fullName, phoneNumber }); // Gọi API register
-        setSucessMessage("Register successful:");
+        const data = await authService.register({ username, email, password, fullName, phoneNumber });
+        setSucessMessage("Đăng ký thành công. Vui lòng xác minh email của bạn.");
         setIsLogin(true);
-        setTimeout(() => {
-          setUsername("");
-          setEmail("");
-          setPassword("");
-        }, 1000);
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setFullName("");
+        setPhoneNumber("");
       } catch (error) {
-        setErrorMessage("Register failed: Trùng email");
+        setErrorMessage("Đăng ký thất bại: " + (error.response?.data?.message || error.message));
       }
     }
   };
