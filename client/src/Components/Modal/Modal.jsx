@@ -141,10 +141,7 @@ const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
   return (
     <div className="fixed z-50 top-0 bottom-0 right-0 left-0 bg-[#000000c2]">
       {errorMessage && (
-    <div className="fixed z-50 top-0 bottom-0 right-0 left-0 bg-[#000000c2]">
-      {errorMessage && (
         <div className="fixed top-[120px] right-3 transform -translate-x-1/2 z-[1000] bg-red-600 text-white py-2 px-4 rounded-md shadow-lg">
-          {errorMessage}
           {errorMessage}
         </div>
       )}
