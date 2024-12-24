@@ -1,4 +1,4 @@
-import axiosInstance from '../axiosConfig';
+import axiosInstance from './axios.config';
 
 export const getProductData = async () => {
   try {

@@ -16,7 +16,7 @@ const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 router.get('/', adminMiddleware, userController.getAllUsers);
 
 // Lấy user theo ID
-router.get('/:id', adminMiddleware, userController.getUserById);
+router.get('/:id', authMiddleware, userController.getUserById);
 
 // Xóa user
 router.delete('/:id', adminMiddleware, userController.deleteUser);
