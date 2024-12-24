@@ -30,7 +30,25 @@ const authService = {
    * @returns {Promise<Object>} Phản hồi từ server
    */
   login: async (credentials) => {
-    return axiosClient.post('/auth/login', credentials);
+    try {
+      const response = await axiosClient.post('/auth/login', credentials);
+      return response.data;
+    } catch (error) {
+      // Handle specific error cases
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            throw new Error('Email hoặc mật khẩu không chính xác');
+          case 403:
+            throw new Error('Tài khoản chưa được xác minh email');
+          case 404:
+            throw new Error('Tài khoản không tồn tại');
+          default:
+            throw new Error('Lỗi đăng nhập: ' + (error.response.data?.message || 'Vui lòng thử lại sau'));
+        }
+      }
+      throw new Error('Không thể kết nối đến máy chủ');
+    }
   },
 
   /**
