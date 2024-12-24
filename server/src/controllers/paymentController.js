@@ -11,7 +11,7 @@ exports.createPayment = async (req, res) => {
 
     const content = `Thanh toán vé xem phim cho giao dịch có mã ${payment.transactionCode}`;
     // Tạo URL thanh toán VNPay
-    const paymentUrl = await paymentService.createPaymentUrl(amount, content, req, bankCode);
+    const paymentUrl = await paymentService.createPaymentUrl(payment, content, req, bankCode);
 
     // Trả về URL thanh toán cho người dùng
     res.status(200).json({ paymentUrl });
@@ -31,10 +31,22 @@ exports.vnpayReturn = (req, res) => {
 
   vnp_Params = sortObject(vnp_Params);
 
+  const sortedParams = Object.entries(vnp_Params)
+      .sort(([key1], [key2]) => key1.localeCompare(key2))
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+
+  // Tạo chuỗi tham số để ký
+  const signData = Object.entries(sortedParams)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&');
+
+  // Ký HMAC SHA512
   const secretKey = "HUQHTRVXVRGJJWHMBFCAUBAXOSAJBIND";
-  let signData = querystring.stringify(vnp_Params, { encode: false });
-  let hmac = crypto.createHmac('sha512', secretKey);
-  let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
+  const hmac = crypto.createHmac('sha512', secretKey);
+  const signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
 
   if (secureHash === signed) {
     // Xử lý dữ liệu sau khi thanh toán thành công
