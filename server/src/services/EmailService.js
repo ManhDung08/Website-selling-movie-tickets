@@ -4,8 +4,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+        user: process.env.EMAIL_USER || 'dung08122003@gmail.com',
+        pass: process.env.EMAIL_PASSWORD || 'lrxe pqmu oslk lbch'
     }
 });
 
@@ -13,7 +13,7 @@ exports.sendVerificationEmail = async (email, verificationToken) => {
     const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${verificationToken}`;
     
     const mailOptions = {
-      from: process.env.EMAIL_USERNAME,
+      from: process.env.EMAIL_USER || 'dung08122003@gmail.com',
       to: email,
       subject: 'Xác thực tài khoản của bạn',
       html: `

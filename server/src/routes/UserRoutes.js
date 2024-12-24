@@ -15,6 +15,9 @@ const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 // - Example: GET /api/users?page=2&limit=5&role=user
 router.get('/', adminMiddleware, userController.getAllUsers);
 
+// Tạo user mới
+router.post('/', adminMiddleware, userValidation.createUserValidation, userController.createUser);
+
 // Lấy user theo ID
 router.get('/:id', authMiddleware, userController.getUserById);
 

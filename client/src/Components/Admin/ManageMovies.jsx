@@ -17,7 +17,7 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { getMovies, createMovie, updateMovie, deleteMovie } from "../../api/moviesApi";
+import movieService from "../../services/movieService";
 
 
 const modalStyle = {
@@ -53,7 +53,7 @@ const ManageMovies = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const data = await getMovies(); // Gọi API để lấy danh sách phim
+        const data = await movieService.getAllMovies(); // Gọi API để lấy danh sách phim
         setMovies(data); // Cập nhật state với danh sách phim
       } catch (error) {
         console.error("Lỗi khi lấy danh sách phim", error);
@@ -94,13 +94,13 @@ const ManageMovies = () => {
     try {
       if (editingMovie) {
         // Cập nhật phim
-        const updatedMovie = await updateMovie(editingMovie.id, newMovie);
+        const updatedMovie = await movieService.updateMovie(editingMovie.id, newMovie);
         setMovies((prev) =>
           prev.map((movie) => (movie.id === updatedMovie.id ? updatedMovie : movie))
         );
       } else {
         // Thêm phim mới
-        const createdMovie = await createMovie(newMovie);
+        const createdMovie = await movieService.createMovie(newMovie);
         setMovies((prev) => [...prev, createdMovie]);
       }
       handleClose();
@@ -112,7 +112,7 @@ const ManageMovies = () => {
   // Xóa phim
   const handleDelete = async (id) => {
     try {
-      await deleteMovie(id); // Gọi API xóa phim
+      await movieService.deleteMovie(id); // Gọi API xóa phim
       setMovies((prev) => prev.filter((movie) => movie.id !== id));
     } catch (error) {
       console.error("Lỗi khi xóa phim", error);

@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { setUser } from './redux/userSlice';
 import { jwtDecode } from 'jwt-decode';
 import OrderList from './Page/Order';
+import Dashboard from "./Components/Admin/Dashboard";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -44,7 +45,8 @@ export default function App() {
           <Route path="/detail/:id" element={<FirmDetail />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order" element={<OrderList />} />
-          
+          <Route path="/dashboard" element={<Dashboard />} />
+
         </Routes>
       </BrowserRouter>
     </div>

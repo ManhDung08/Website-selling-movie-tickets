@@ -19,16 +19,10 @@ import {
 } from "@mui/material";
 
 // Import các hàm API
-import { 
-  getShowtimes, 
-  createShowtime, 
-  updateShowtime, 
-  deleteShowtime,
-} from "../../api/showtimesApi";
-
-import { getMovies } from "../../api/moviesApi";
-import { getTheaters } from "../../api/theatersApi";
-import { getRooms } from "../../api/roomsApi";
+import showtimeService from "../../services/showtimeService";
+import movieService from "../../services/movieService";
+import theaterService from "../../services/theaterService";
+import roomService from "../../services/roomService";
 
 const modalStyle = {
   position: "absolute",
@@ -63,16 +57,16 @@ const ManageShowtimes = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const showtimesData = await getShowtimes();
+        const showtimesData = await showtimeService.getAllShowtimes();
         setShowtimes(showtimesData);
 
-        const moviesData = await getMovies();
+        const moviesData = await movieService.getAllMovies();
         setMovies(moviesData);
 
-        const theatersData = await getTheaters();
+        const theatersData = await theaterService.getAllTheaters();
         setTheaters(theatersData);
 
-        const roomsData = await getRooms();
+        const roomsData = await roomService.getAllRooms();
         setRooms(roomsData);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
@@ -110,7 +104,7 @@ const ManageShowtimes = () => {
     try {
       if (editingShowtime) {
         // Cập nhật suất chiếu
-        const updatedShowtime = await updateShowtime(editingShowtime.id, newShowtime);
+        const updatedShowtime = await showtimeService.updateShowtime(editingShowtime.id, newShowtime);
         setShowtimes((prev) =>
           prev.map((showtime) =>
             showtime.id === editingShowtime.id ? updatedShowtime : showtime
@@ -118,7 +112,7 @@ const ManageShowtimes = () => {
         );
       } else {
         // Thêm suất chiếu mới
-        const createdShowtime = await createShowtime(newShowtime);
+        const createdShowtime = await showtimeService.createShowtime(newShowtime);
         setShowtimes((prev) => [...prev, createdShowtime]);
       }
       handleClose();
@@ -131,7 +125,7 @@ const ManageShowtimes = () => {
   const handleDelete = async (id) => {
     try {
       // Gọi API xóa suất chiếu
-      await deleteShowtime(id);
+      await showtimeService.deleteShowtime(id);
       setShowtimes((prev) => prev.filter((showtime) => showtime.id !== id));
     } catch (error) {
       console.error("Lỗi khi xóa suất chiếu:", error);

@@ -60,7 +60,7 @@ exports.createUserValidation = [
     body('password')
         .trim()
         .notEmpty().withMessage('Mật khẩu không được để trống')
-        .isLength({ min: 8 }).withMessage('Mật khẩu phải có ít nhất 8 ký tự')
+        .isLength({ min: 6 }).withMessage('Mật khẩu phải có ít nhất 6 ký tự')
         .matches(/[A-Z]/).withMessage('Mật khẩu phải chứa ít nhất một chữ cái viết hoa')
         .matches(/[0-9]/).withMessage('Mật khẩu phải chứa ít nhất một chữ số'),
     body('role')
@@ -93,7 +93,7 @@ exports.registerUserValidation = [
     body('password')
         .trim()
         .notEmpty().withMessage('Mật khẩu không được để trống')
-        .isLength({ min: 8 }).withMessage('Mật khẩu phải có ít nhất 8 ký tự')
+        .isLength({ min: 6 }).withMessage('Mật khẩu phải có ít nhất 6 ký tự')
         .matches(/[A-Z]/).withMessage('Mật khẩu phải chứa ít nhất một chữ cái viết hoa')
         .matches(/[0-9]/).withMessage('Mật khẩu phải chứa ít nhất một chữ số'),
     ...baseUserValidation,

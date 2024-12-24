@@ -40,6 +40,15 @@ const userService = {
   },
 
   /**
+   * Tạo người dùng mới
+   * @param {Object} userData - Dữ liệu của người dùng mới
+   * @returns {Promise<Object>} Người dùng đã được tạo
+   */
+  createUser: async (userData) => {
+    return axiosClient.post('/users', userData);  // Post request to create a user
+  },
+
+  /**
    * Cập nhật thông tin người dùng
    * @param {string} userId - ID của người dùng
    * @param {Object} userData - Dữ liệu thông tin người dùng mới
