@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const jsonData = {
   Position: [
@@ -19,16 +20,44 @@ const jsonData = {
 
 const SeatRoom = () => {
   const [seats, setSeats] = useState([]);
-  const [selectedSeats, setSelectedSeats] = useState([]); // Lưu danh sách ghế đã chọn
-  const [totalAmount, setTotalAmount] = useState(0); // Lưu tổng tiền
+  const navigate = useNavigate();
 
+  const user = useSelector((state)=>state.user).id
+
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const [totalAmount, setTotalAmount] = useState(0); 
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [snacks, setSnacks] = useState([
+
+    { id: 1, name: "Bỏng Ngô", price: 50000, checked: false },
+
+    { id: 2, name: "Coca Cola", price: 30000, checked: false },
+
+    { id: 3, name: "Pepsi", price: 30000, checked: false },
+
+    { id: 4, name: "Combo 1", price: 100000, checked: false },
+
+    { id: 5, name: "Combo 2", price: 150000, checked: false },
+
+    { id: 6, name: "Combo 3", price: 300000, checked: false },
+
+  ]); 
+
+  const formattedPrice = (price) => {
+
+    return price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+  };
   const handleSeatClick = (seat, seatClass,index) => {
     const seatPrice =
       seatClass === "seatroom__pos__vip"  & index <= 17  & index >=4
-        ? 200
+        ? 200000
         : seatClass === "seatroom__pos__Couple"  & index <= 17  & index >=4
-        ? 300
-        : 100;
+        ? 300000
+        : 100000;
 
     if (selectedSeats.includes(seat)) {
       setSelectedSeats(selectedSeats.filter((s) => s !== seat));
@@ -37,6 +66,52 @@ const SeatRoom = () => {
       setSelectedSeats([...selectedSeats, seat]);
       setTotalAmount(totalAmount + seatPrice);
     }
+  };
+
+  const handleSnackChange = (id) => {
+
+    setSnacks((prevSnacks) =>
+
+      prevSnacks.map((snack) => {
+
+        if (snack.id === id) {
+
+          const updatedSnack = { ...snack, checked: !snack.checked };
+
+  
+
+          // Cập nhật tổng tiền
+
+          if (updatedSnack.checked) {
+
+            setTotalAmount((prevTotal) => prevTotal + updatedSnack.price);
+
+          } else {
+
+            setTotalAmount((prevTotal) => prevTotal - updatedSnack.price);
+
+          }
+
+  
+
+          return updatedSnack;
+
+        }
+
+        return snack;
+
+      })
+
+    );
+
+  };
+
+
+
+  const handleSnackConfirm = () => {
+
+    setIsModalOpen(false);
+
   };
 
   const printSeatMan = (posName, seatClass) => {
@@ -73,6 +148,41 @@ const SeatRoom = () => {
     );
   };
 
+  const handleCheckout = () => {
+
+    const Snacks = snacks.filter((snack) => snack.checked);
+
+    console.log('Snacks', Snacks)
+
+    const idOrder = `order-${Date.now()}`;
+
+
+
+  const checkoutData = {
+
+    user,
+
+    idOrder,
+
+    Snacks,
+
+    selectedSeats,
+
+    totalAmount,
+
+  };
+
+  const orders = JSON.parse(localStorage.getItem("checkoutData")) || [];
+
+  orders.push(checkoutData);
+
+  localStorage.setItem("checkoutData", JSON.stringify(orders));
+
+    alert("Đặt vé thành công");
+
+    navigate("/order"); 
+
+  };
   useEffect(() => {
     const data = jsonData;
 
@@ -127,10 +237,51 @@ const SeatRoom = () => {
         <p>
           Suất <b>12:00 24/12/2024</b>
         </p>
+        <h3 className="font-bold mb-2">Ghế đã chọn:</h3>
+
+{selectedSeats.map((data)=>(
+
+  <li key={data}>
+
+    {data}
+
+  </li>
+
+))}
+
+<p className="text-red-400 hover:underline cursor-pointer" onClick={() => setIsModalOpen(true)} >Chọn thêm bỏng và nước</p>
+
+{snacks.filter((snack) => snack.checked).length > 0 && (
+
+    <div className="mt-2">
+
+      <h3 className="font-bold mb-2">Bỏng ngô và nước đã chọn:</h3>
+
+      <ul>
+
+        {snacks
+
+          .filter((snack) => snack.checked)
+
+          .map((snack) => (
+
+            <li key={snack.id}>
+
+              {snack.name} - {formattedPrice(snack.price)}
+
+            </li>
+
+          ))}
+
+      </ul>
+
+    </div>
+
+  )}
         <p className="flex justify-between">
           <span>Tổng tiền</span>
           <b className="text-green-500" id="TotalAmout">
-            {totalAmount} đ
+          {formattedPrice(totalAmount)}
           </b>
         </p>
         <p className="flex gap-2 text-red-400 font-bold">
@@ -157,11 +308,84 @@ const SeatRoom = () => {
           >
             Quay lại
           </Link>
-          <button className="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700">
+          <button onClick={handleCheckout} className="bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700">
             Thanh toán
           </button>
         </div>
       </div>
+      {isModalOpen && (
+
+<div className="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+
+<div className="bg-white p-6 rounded-md w-80">
+
+  <h2 className="text-lg font-bold mb-4">Chọn bỏng và nước</h2>
+
+  <ul>
+
+    {snacks.map((snack) => (
+
+      <li key={snack.id} className="flex items-center mb-2">
+
+        <input
+
+          type="checkbox"
+
+          checked={snack.checked}
+
+          onChange={() => handleSnackChange(snack.id)}
+
+          className="mr-2"
+
+        />
+
+        <span>
+
+          {snack.name} - {formattedPrice(snack.price)}
+
+        </span>
+
+      </li>
+
+    ))}
+
+  </ul>
+
+  <div className="flex justify-end mt-4">
+
+    <button
+
+      className="bg-red-600 text-white py-2 px-4 rounded-md mr-2"
+
+      onClick={() => setIsModalOpen(false)}
+
+    >
+
+      Hủy
+
+    </button> 
+
+    <button
+
+      className="bg-green-600 text-white py-2 px-4 rounded-md"
+
+      onClick={handleSnackConfirm}
+
+    >
+
+      OK
+
+    </button>
+
+  </div>
+
+</div>
+
+</div>
+
+
+
+)}
     </div>
   );
 };
