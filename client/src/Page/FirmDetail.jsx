@@ -8,72 +8,264 @@ const FirmDetail = () => {
   const { id } = useParams();
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [productDetail, setProductDetail] = useState({});
+  const [selectedDistrict, setSelectedDistrict] = useState("Hoàng Mai");
   console.log('productDetail', productDetail)
   const cinemas = [
     {
+      district: "Thanh Xuân",
       title: "Beta Cinemas",
       count: "3 rạp",
       branches: [
         {
           name: "Beta Trần Quang Khải",
-          address: "123 Trần Quang Khải, Quận 1, Hồ Chí Minh",
+          address: "123 Trần Quang Khải, Thanh Xuân, Hà Nội",
           showtimes: ["10:00", "12:30", "15:00", "18:00", "20:30"],
         },
         {
           name: "Beta Quang Trung",
-          address: "456 Quang Trung, Gò Vấp, Hồ Chí Minh",
+          address: "456 Quang Trung, Gò Vấp, Hà Nội",
           showtimes: ["09:00", "11:30", "14:00", "16:30", "19:00"],
         },
         {
           name: "Beta Ung Văn Khiêm",
-          address: "789 Ung Văn Khiêm, Bình Thạnh, Hồ Chí Minh",
+          address: "789 Ung Văn Khiêm, Giải Phóng, Hà Nội",
           showtimes: ["08:30", "10:30", "13:00", "17:00", "21:00"],
         },
       ],
     },
     {
-      title: "Beta Cinemas 2",
+      district: "Mỹ Đình",
+      title: "CGV Cinemas ",
       count: "2 rạp",
       branches: [
         {
-          name: "CGV Landmark 81",
-          address: "720A Điện Biên Phủ, Bình Thạnh, Hồ Chí Minh",
+          name: "CGV Vincom Sky Lake",
+          address: "72 Phạm Hùng, Giải Phóng, Hà Nội",
           showtimes: ["09:00", "12:00", "15:30", "19:00", "22:00"],
         },
         {
           name: "CGV Crescent Mall",
-          address: "101 Tôn Dật Tiên, Quận 7, Hồ Chí Minh",
+          address: "101 Đường Mỹ Đình, Mỹ Đình, Hà Nội",
           showtimes: ["10:15", "13:45", "16:30", "20:00", "23:00"],
         },
       ],
     },
     {
-      title: "Beta Cinemas 3",
+      district: "Giải Phóng",
+
+      title: "Lotte Cinemas ",
+
+      count: "4 rạp",
+
+      branches: [
+
+        {
+
+          name: "Lotte Nguyễn Văn Lượng",
+
+          address: "12 Nguyễn Văn Lượng, Giải Phóng, Hà Nội",
+
+          showtimes: ["08:45", "11:00", "13:30", "17:30", "20:45"],
+
+        },
+
+        {
+
+          name: "Lotte Hai Bà Trưng",
+
+          address: "20 Lữ Gia, Hai Bà Trưng, Hà Nội",
+
+          showtimes: ["09:15", "12:30", "15:45", "18:45", "21:30"],
+
+        },
+
+        {
+
+          name: "Lotte Cộng Hòa",
+
+          address: "555 Cộng Hòa, Tân Bình, Hà Nội",
+
+          showtimes: ["10:00", "13:00", "16:00", "19:00", "22:00"],
+
+        },
+
+        {
+
+          name: "Lotte Thủ Đức",
+
+          address: "268 Võ Văn Ngân, Thủ Đức, Hà Nội",
+
+          showtimes: ["09:00", "11:30", "14:00", "16:30", "19:30"],
+
+        },
+
+      ],
+
+    },
+
+    {
+
+      district: "Hoàng Mai",
+      title: "Lotte Cinemas",
       count: "4 rạp",
       branches: [
         {
           name: "Lotte Nguyễn Văn Lượng",
-          address: "12 Nguyễn Văn Lượng, Gò Vấp, Hồ Chí Minh",
+          address: "12 Nguyễn Văn Lượng, Gò Vấp, Hà Nội",
           showtimes: ["08:45", "11:00", "13:30", "17:30", "20:45"],
         },
         {
           name: "Lotte Phú Thọ",
-          address: "20 Lữ Gia, Quận 11, Hồ Chí Minh",
+          address: "20 Lữ Gia, Hoàng Mai1, Hà Nội",
           showtimes: ["09:15", "12:30", "15:45", "18:45", "21:30"],
         },
         {
           name: "Lotte Cộng Hòa",
-          address: "555 Cộng Hòa, Tân Bình, Hồ Chí Minh",
+          address: "555 Cộng Hòa, Tân Bình, Hà Nội",
           showtimes: ["10:00", "13:00", "16:00", "19:00", "22:00"],
         },
         {
           name: "Lotte Thủ Đức",
-          address: "268 Võ Văn Ngân, Thủ Đức, Hồ Chí Minh",
+          address: "268 Võ Văn Ngân, Thủ Đức, Hà Nội",
           showtimes: ["09:00", "11:30", "14:00", "16:30", "19:30"],
         },
       ],
     },
+    {
+
+      district: "Mỹ Đình",
+
+      title: "Beta Cinemas",
+
+      count: "3 rạp",
+
+      branches: [
+
+        {
+
+          name: "Beta Trần Quang Khải",
+
+          address: "123 Trần Quang Khải, Hoàng Mai, Hà Nội",
+
+          showtimes: ["10:00", "12:30", "15:00", "18:00", "20:30"],
+
+        },
+
+        {
+
+          name: "Beta Quang Trung",
+
+          address: "456 Quang Trung, Gò Vấp, Hà Nội",
+
+          showtimes: ["09:00", "11:30", "14:00", "16:30", "19:00"],
+
+        },
+
+        {
+
+          name: "Beta Ung Văn Khiêm",
+
+          address: "789 Ung Văn Khiêm, Giải Phóng, Hà Nội",
+
+          showtimes: ["08:30", "10:30", "13:00", "17:00", "21:00"],
+
+        },
+
+      ],
+
+    },
+
+    {
+
+      district: "Giải Phóng",
+
+      title: "Beta Cinemas",
+
+      count: "3 rạp",
+
+      branches: [
+
+        {
+
+          name: "Beta Trần Quang Khải",
+
+          address: "123 Trần Quang Khải, Hoàng Mai, Hà Nội",
+
+          showtimes: ["10:00", "12:30", "15:00", "18:00", "20:30"],
+
+        },
+
+        {
+
+          name: "Beta Quang Trung",
+
+          address: "456 Quang Trung, Gò Vấp, Hà Nội",
+
+          showtimes: ["09:00", "11:30", "14:00", "16:30", "19:00"],
+
+        },
+
+        {
+
+          name: "Beta Ung Văn Khiêm",
+
+          address: "789 Ung Văn Khiêm, Giải Phóng, Hà Nội",
+
+          showtimes: ["08:30", "10:30", "13:00", "17:00", "21:00"],
+
+        },
+
+      ],
+
+    },
+
+    {
+
+      district: "Quận 4",
+
+      title: "Beta Cinemas",
+
+      count: "3 rạp",
+
+      branches: [
+
+        {
+
+          name: "Beta Trần Quang Khải",
+
+          address: "123 Trần Quang Khải, Hoàng Mai, Hà Nội",
+
+          showtimes: ["10:00", "12:30", "15:00", "18:00", "20:30"],
+
+        },
+
+        {
+
+          name: "Beta Quang Trung",
+
+          address: "456 Quang Trung, Gò Vấp, Hà Nội",
+
+          showtimes: ["09:00", "11:30", "14:00", "16:30", "19:00"],
+
+        },
+
+        {
+
+          name: "Beta Ung Văn Khiêm",
+
+          address: "789 Ung Văn Khiêm, Giải Phóng, Hà Nội",
+
+          showtimes: ["08:30", "10:30", "13:00", "17:00", "21:00"],
+
+        },
+
+      ],
+
+    },
   ];
+  const filteredCinemas = cinemas.filter(cinema => cinema.district === selectedDistrict);
+
+  console.log('filteredCinemas', filteredCinemas)
   const [openItems, setOpenItems] = useState(
     cinemas.map(() => false)
   );
@@ -92,6 +284,7 @@ const FirmDetail = () => {
         setProductDetail(res.data)
       }
   }
+  const uniqueDistricts = [...new Set(cinemas.map(cinema => cinema.district))];
   useEffect(()=>{
     fetchData(id)
   },[])
@@ -188,59 +381,18 @@ const FirmDetail = () => {
         <h1 className='font-bold text-3xl text-center my-4'>Mua vé trực tuyến</h1>
         <div className='w-[734px]'>
           <div className=' p-4 border rounded-md'>
-              <select className='w-full border rounded-md px-3 py-2' >
-                <option value="1">Tp. Hồ Chí Minh</option>
-                <option value="9">Hà Nội</option>
-                <option value="4" selected="">Bình Dương</option>
-                <option value="7">Đà Nẵng</option>
-                <option value="3">Đồng Nai</option>
-                <option value="6">Cần Thơ</option>
-                <option value="12">Khánh Hòa</option>
-                <option value="23">Lâm Đồng</option>
-                <option value="8">Quảng Ninh</option>
-                <option value="15">Bà Rịa - Vũng Tàu</option>
-                <option value="14">Bình Định</option>
-                <option value="5">Đắk Lắk</option>
-                <option value="10">Hải Phòng</option>
-                <option value="11">Thừa Thiên - Huế</option>
-                <option value="21">Nghệ An</option>
-                <option value="18">An Giang</option>
-                <option value="2">Bắc Giang</option>
-                <option value="30">Cà Mau</option>
-                <option value="44">Gia Lai</option>
-                <option value="24">Kiên Giang</option>
-                <option value="52">Kon Tum</option>
-                <option value="41">Quảng Bình</option>
-                <option value="42">Quảng Nam</option>
-                <option value="50">Quảng Trị</option>
-                <option value="40">Sóc Trăng</option>
-                <option value="36">Tây Ninh</option>
-                <option value="22">Thái Nguyên</option>
-                <option value="25">Thanh Hóa</option>
-                <option value="49">Tiền Giang</option>
-                <option value="33">Bắc Ninh</option>
-                <option value="19">Bến Tre</option>
-                <option value="13">Bình Thuận</option>
-                <option value="55">Đồng Tháp</option>
-                <option value="48">Hà Nam</option>
-                <option value="31">Hà Tĩnh</option>
-                <option value="29">Hải Dương</option>
-                <option value="35">Hậu Giang</option>
-                <option value="56">Hưng Yên</option>
-                <option value="47">Lạng Sơn</option>
-                <option value="58">Lào Cai</option>
-                <option value="45">Long An</option>
-                <option value="38">Nam Định</option>
-                <option value="16">Ninh Bình</option>
-                <option value="43">Ninh Thuận</option>
-                <option value="17">Phú Thọ</option>
-                <option value="51">Quảng Ngãi</option>
-                <option value="46">Sơn La</option>
-                <option value="20">Thái Bình</option>
-                <option value="27">Trà Vinh</option>
-                <option value="34">Tuyên Quang</option>
-                <option value="28">Vĩnh Long</option>
-                <option value="26">Yên Bái</option>
+          <select className='w-full border rounded-md px-3 py-2' onChange={(e) => setSelectedDistrict(e.target.value)} >
+
+{uniqueDistricts.map(district => (
+
+  <option key={district} value={district}>
+
+    {district}
+
+  </option>
+
+))}
+
               </select>
           </div>
           <div className='my-4 bg-[#edf2f9] border rounded-md'>
@@ -259,7 +411,7 @@ const FirmDetail = () => {
             </div>
           </div>
           <div className='border rounded-md mb-4'>
-            {cinemas.map((cinema, index) => (
+          {filteredCinemas.map((cinema, index) => (
               <div
                 key={index}
                 className={`transition-all duration-700 ${
