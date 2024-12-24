@@ -1,7 +1,6 @@
 const paymentService = require('../services/PaymentService');
 const Payment = require('../models/Payment');
 
-
 //Tạo giao dịch thanh toán
 exports.createPayment = async (req, res) => {
   try {
@@ -10,8 +9,9 @@ exports.createPayment = async (req, res) => {
     // Tạo giao dịch thanh toán trong cơ sở dữ liệu
     const payment = await paymentService.createPayment(ticketId, userId, amount, paymentMethod, bankCode);
 
+    const content = `Thanh toán vé xem phim cho giao dịch có mã ${payment.transactionCode}`;
     // Tạo URL thanh toán VNPay
-    const paymentUrl = await paymentService.createPaymentUrl(payment, bankCode);
+    const paymentUrl = await paymentService.createPaymentUrl(amount, content, req, bankCode);
 
     // Trả về URL thanh toán cho người dùng
     res.status(200).json({ paymentUrl });
@@ -31,7 +31,7 @@ exports.vnpayReturn = (req, res) => {
 
   vnp_Params = sortObject(vnp_Params);
 
-  const secretKey = config.get('vnp_HashSecret');
+  const secretKey = "HUQHTRVXVRGJJWHMBFCAUBAXOSAJBIND";
   let signData = querystring.stringify(vnp_Params, { encode: false });
   let hmac = crypto.createHmac('sha512', secretKey);
   let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');
@@ -69,7 +69,7 @@ exports.vnpayIpn = (req, res) => {
 
   vnp_Params = sortObject(vnp_Params);
 
-  const secretKey = config.get('vnp_HashSecret');
+  const secretKey = "HUQHTRVXVRGJJWHMBFCAUBAXOSAJBIND";
   let signData = querystring.stringify(vnp_Params, { encode: false });
   let hmac = crypto.createHmac('sha512', secretKey);
   let signed = hmac.update(Buffer.from(signData, 'utf-8')).digest('hex');

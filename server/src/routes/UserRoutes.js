@@ -21,13 +21,6 @@ router.get('/:id', adminMiddleware, userController.getUserById);
 // Xóa user
 router.delete('/:id', adminMiddleware, userController.deleteUser);
 
-//For user
-// Đăng ký người dùng (role luôn là user)
-router.post('/register', userValidation.registerUserValidation, userController.createUser);
-// Đăng nhập
-router.post('/login', userValidation.loginValidation, userController.login);
-
-
 //For both
 // Cập nhật thông tin người dùng
 router.put('/:id', userValidation.updateUserValidation, authMiddleware, userController.updateUser);
