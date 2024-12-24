@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { login, register } from "../../services/userService";
+import { login, register } from "../../services/authService";
 
 const Modal = ({ openModal, setOpenModal, isLogin, setIsLogin }) => {
 const [username, setUsername] = useState("");
