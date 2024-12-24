@@ -20,8 +20,7 @@ import {
   FormControl,
 } from "@mui/material";
 
-// Import các hàm API
-import { getUsers, createUser, updateUser, deleteUser } from "../../api/usersApi";
+import userService from "../../services/userService";
 
 const modalStyle = {
   position: "absolute",
@@ -58,37 +57,45 @@ const ManageUsers = () => {
 
   // Lấy danh sách người dùng từ API khi component render
   useEffect(() => {
-    const fetchUsersFromApi = async () => {
+    const fetchUsers = async () => {
       try {
-        const usersData = await getUsers({
+        const response = await userService.getAllUsers({
           page: pagination.page,
           limit: pagination.limit,
         });
-        setUsers(usersData.data); // Giả sử backend trả về dữ liệu trong `data`
+        setUsers(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
       }
     };
 
-    fetchUsersFromApi();
+    fetchUsers();
   }, [pagination]); // Điều chỉnh khi thay đổi trang hoặc số lượng người dùng trên trang
 
   // Mở modal
-  const handleOpen = (user = null) => {
-    setEditingUser(user);
-    setNewUser(
-      user || {
+  const handleOpen = async (user = null) => {
+    if (user) {
+      try {
+        const response = await userService.getUserById(user.id);
+        setEditingUser(response.data);
+        setNewUser(response.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin người dùng:", error);
+      }
+    } else {
+      setEditingUser(null);
+      setNewUser({
         username: "",
         email: "",
         password: "",
         fullName: "",
         phone: "",
-        role: "user", // Mặc định là "user"
+        role: "user",
         dateOfBirth: "",
         isEmailVerified: false,
         isActive: false,
-      }
-    );
+      });
+    }
     setOpen(true);
   };
 
@@ -103,13 +110,13 @@ const ManageUsers = () => {
     try {
       if (editingUser) {
         // Gọi API cập nhật người dùng
-        const updatedUser = await updateUser(editingUser.id, newUser);
+        const updatedUser = await await userService.updateUser(editingUser.id, newUser);
         setUsers((prev) =>
           prev.map((user) => (user.id === editingUser.id ? updatedUser.data : user))
         );
       } else {
         // Gọi API thêm người dùng mới
-        const createdUser = await createUser(newUser);
+        const createdUser = await userService.createUser(newUser);
         setUsers((prev) => [...prev, createdUser.data]);
       }
       handleClose();
@@ -121,8 +128,7 @@ const ManageUsers = () => {
   // Xóa người dùng
   const handleDelete = async (id) => {
     try {
-      // Gọi API xóa người dùng
-      await deleteUser(id);
+      await userService.deleteUser(id);
       setUsers((prev) => prev.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Lỗi khi xóa người dùng:", error);

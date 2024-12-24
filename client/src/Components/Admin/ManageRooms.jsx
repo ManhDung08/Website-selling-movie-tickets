@@ -19,8 +19,8 @@ import {
 } from "@mui/material";
 
 // Import các hàm API
-import { getRooms, createRoom, updateRoom, deleteRoom } from "../../api/roomsApi";
-import { getTheaters } from "../../api/theatersApi"; 
+import roomService from "../../services/roomService";
+import theaterService from "../../services/theaterService"; 
 
 const modalStyle = {
   position: "absolute",
@@ -51,7 +51,7 @@ const ManageRooms = () => {
   useEffect(() => {
     const fetchRoomsFromApi = async () => {
       try {
-        const roomsData = await getRooms();
+        const roomsData = await roomService.getAllRooms();
         setRooms(roomsData);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách phòng chiếu:", error);
@@ -60,7 +60,7 @@ const ManageRooms = () => {
 
     const fetchTheaters = async () => {
       try {
-        const theatersData = await getTheaters(); // Lấy danh sách rạp
+        const theatersData = await theaterService.getAllTheaters(); // Lấy danh sách rạp
         setTheaters(theatersData);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách rạp chiếu:", error);
@@ -95,13 +95,13 @@ const ManageRooms = () => {
     try {
       if (editingRoom) {
         // Gọi API cập nhật phòng chiếu
-        const updatedRoom = await updateRoom(editingRoom.id, newRoom);
+        const updatedRoom = await roomService.updateRoom(editingRoom.id, newRoom);
         setRooms((prev) =>
           prev.map((room) => (room.id === editingRoom.id ? updatedRoom : room))
         );
       } else {
         // Gọi API thêm phòng chiếu mới
-        const createdRoom = await createRoom(newRoom);
+        const createdRoom = await roomService.createRoom(newRoom);
         setRooms((prev) => [...prev, createdRoom]);
       }
       handleClose();
@@ -114,7 +114,7 @@ const ManageRooms = () => {
   const handleDelete = async (id) => {
     try {
       // Gọi API xóa phòng chiếu
-      await deleteRoom(id);
+      await roomService.deleteRoom(id);
       setRooms((prev) => prev.filter((room) => room.id !== id));
     } catch (error) {
       console.error("Lỗi khi xóa phòng chiếu:", error);

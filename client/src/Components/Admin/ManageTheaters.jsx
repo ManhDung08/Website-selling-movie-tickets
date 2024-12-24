@@ -4,7 +4,7 @@ import {
   TableHead, TableRow, Paper, Modal, TextField, MenuItem, Select, FormControl, 
   InputLabel
 } from '@mui/material';
-import { getTheaters, createTheater, updateTheater, deleteTheater } from '../../api/theatersApi';
+import theaterService from '../../services/theaterService';
 
 const modalStyle = {
   position: 'absolute',
@@ -38,8 +38,8 @@ const ManageTheaters = () => {
   useEffect(() => {
     const fetchTheatersFromApi = async () => {
       try {
-        const theatersData = await getTheaters();
-        setTheaters(theatersData);
+        const response = await theaterService.getAllTheaters();
+        setTheaters(response.data);
       } catch (error) {
         console.error('Lỗi khi lấy danh sách rạp chiếu:', error);
       }
@@ -75,10 +75,10 @@ const ManageTheaters = () => {
   const handleSave = async () => {
     try {
       if (editingTheater) {
-        const updatedTheater = await updateTheater(editingTheater._id, newTheater);
+        const updatedTheater = await theaterService.updateTheater(editingTheater._id, newTheater);;
         setTheaters(prev => prev.map(theater => theater._id === editingTheater._id ? updatedTheater : theater));
       } else {
-        const createdTheater = await createTheater(newTheater);
+        const createdTheater = await theaterService.createTheater(newTheater);
         setTheaters(prev => [...prev, createdTheater]);
       }
       handleClose();
@@ -90,7 +90,7 @@ const ManageTheaters = () => {
   // Xóa rạp chiếu
   const handleDelete = async (id) => {
     try {
-      await deleteTheater(id);
+      await theaterService.deleteTheater(id);;
       setTheaters(prev => prev.filter(theater => theater._id !== id));
     } catch (error) {
       console.error('Lỗi khi xóa rạp chiếu:', error);

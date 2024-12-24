@@ -7,7 +7,7 @@ const revenueService = {
    * @returns {Promise<Object>} Bản ghi doanh thu vừa được tạo
    */
   createRevenueRecord: async (revenueData) => {
-    return axiosClient.post('/revenue', revenueData);
+    return axiosClient.post('/revenues', revenueData);
   },
 
   /**
@@ -18,7 +18,28 @@ const revenueService = {
    * @returns {Promise<Object>} Danh sách các bản ghi doanh thu
    */
   getRevenueRecords: async (query = {}) => {
-    return axiosClient.get('/revenue', { params: query });
+    try {
+      // Đảm bảo query luôn là một object
+      const safeQuery = {
+        page: query.page || 1,
+        limit: query.limit || 10
+      };
+
+      // Gọi API với params được an toàn
+      const response = await axiosClient.get('/revenues/record', { 
+        params: safeQuery 
+      });
+
+      // Kiểm tra và xử lý phản hồi
+      if (!response || !response.data) {
+        throw new Error('Không có dữ liệu');
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error('Lỗi khi lấy doanh thu:', error);
+      throw error;
+    }
   },
 
   /**
@@ -29,7 +50,7 @@ const revenueService = {
    * @returns {Promise<Object>} Tổng hợp doanh thu
    */
   getRevenueSummary: async (params) => {
-    return axiosClient.get('/revenue/summary', { params });
+    return axiosClient.get('/revenues/summary', { params });
   },
 
   /**
@@ -37,7 +58,7 @@ const revenueService = {
    * @returns {Promise<Object>} Danh sách các rạp hoặc phim có doanh thu cao nhất
    */
   getTopPerformers: async () => {
-    return axiosClient.get('/revenue/top-performers');
+    return axiosClient.get('/revenues/top-performers');
   },
 };
 
